@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.1/css/select.foundation.min.css">
     <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.foundation.min.css">
     
+    
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.foundation.min.js"></script>
@@ -37,8 +39,8 @@
                 "language":{
                     "url": "./lenguaje/spanish.json"
                 },
-                dom:"Bftrip",
-            
+                  lengthChange: false,
+                dom:"B",
                 ajax:"scripts/r_Laboratorio.php",
                 columns:[
                     {data:"tipoestudio.Nombre"},
@@ -56,10 +58,8 @@
                     }          
                     
                 ],
-                select:false,
-                 buttons:[
-  
-		]   
+                select:true,
+                  buttons: [ 'excel', 'pdf' ]          
            } );
             
      });
