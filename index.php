@@ -1,8 +1,7 @@
 <!doctype html>
 
 <?php 
-require "conexion.php";
-session_start();
+
 ?>
 
 <html>
