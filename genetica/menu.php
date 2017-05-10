@@ -1,0 +1,40 @@
+        <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#">Unidad Genética</a></h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+          <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li class="has-dropdown not-click">
+                    <a href="#"><i class="fi-torso"></i> <?php echo $nombre ?> </a>
+                    <ul class="dropdown">
+                        <li><a href="#">Perfil</a></li>
+                        <li><a href="../logout.php">Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="left">
+            <li class="has-dropdown not-click">
+                <a href="#">Reportes</a>
+                    <ul class="dropdown">
+                        <li><a href="reporteAdmin.php">Admin</a></li>
+                        <li><a href="reporteLaboratorio.php">Laboratorio</a></li>
+                        <li><a href="reportePaciente.php">Paciente</a></li>
+                        <li><a href="reporteMedico.php">Médico</a></li>
+                    </ul>
+                
+            </li>
+              
+                <li class="has-dropdown not-click">              
+                    <a href="#">Agregar</a>
+                        <ul class="dropdown">
+                            <li><a href="altaUsuarios.php">Usuarios</a></li>
+                            <li><a href="altaLaboratorio.php">Laboratorio</a></li>
+                            <li><a href="altaEstudio.php">Estudios</a></li>
+                        </ul>
+                </li>
+            </ul>
+
+          </section>

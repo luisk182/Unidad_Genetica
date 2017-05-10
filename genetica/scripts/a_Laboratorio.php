@@ -18,6 +18,7 @@ use
 	DataTables\Editor\Validate;
 
 // Libreria para captura, lectura y edicion de datos
+$db->sql( "SET NAMES 'utf8'" );
 Editor::inst( $db, 'laboratorio', 'IdLaboratorio')
    
 	->fields(

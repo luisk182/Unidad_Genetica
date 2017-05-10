@@ -17,11 +17,13 @@ use
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
 
-// Libreria para captura, lectura y edicion de datos
-Editor::inst( $db, 'tipoestudio', 'IdTipoEstudio')
+
+    $db->sql( "SET NAMES 'utf8'" );
+    // Libreria para captura, lectura y edicion de datos
+    Editor::inst( $db, 'tipoestudio', 'IdTipoEstudio')
    
 	->fields(
-        Field::inst('Nombre'),
+        Field::inst('NombreEstudio'),
         Field::inst('ClaveEstudio')
 
     )

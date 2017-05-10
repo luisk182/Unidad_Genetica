@@ -14,7 +14,7 @@ $sql_details = array(
 	"pass" => "",       // Database password
 	"host" => "localhost",       // Database host
 	"port" => "",       // Database connection port (can be left empty for default)
-	"db"   => "u_genetica_test",       // Database name
+	"db"   => "ug",       // Database name
 	"dsn"  => ""        // PHP DSN extra information. Set as `charset=utf8` if you are using MySQL
 );
 

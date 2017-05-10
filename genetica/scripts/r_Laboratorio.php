@@ -17,6 +17,7 @@ use
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
 
+$db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
    
@@ -32,15 +33,15 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
     
    
         Field::inst('altaestudios.IdUsuario'),
-                Field::inst('usuario.Nombre'), // Left join rturn data.
-                Field::inst('usuario.Apellido'),
+                Field::inst('usuario.nombre'), // Left join rturn data.
+                Field::inst('usuario.apellido'),
          
         Field::inst('altaestudios.archivo'),
                 Field::inst('archivo.web_path'),
     
 
           Field::inst('altaestudios.IdTipoEstudio'),
-                Field::inst('tipoestudio.Nombre')     
+                Field::inst('tipoestudio.NombreEstudio')     
 
     )
    

@@ -16,7 +16,7 @@ use
 	DataTables\Editor\Options,
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
-
+$db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
 	->fields(
@@ -36,13 +36,13 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
                     ->options( Options::inst()
                         ->table( 'usuario'  )
                         ->value( 'IdUsuario' )
-                        ->label( 'Nombre'   )
+                        ->label( 'nombre'   )
                     )
                     // validador de datos
                     ->validator( 'Validate::dbValues' ),
                 // campo de el left join
-                Field::inst( 'usuario.Nombre'),
-                    Field::inst('usuario.Apellido'), //Join para render de apellido
+                Field::inst( 'usuario.nombre'),
+                    Field::inst('usuario.apellido'), //Join para render de apellido
           
         Field::inst( 'altaestudios.IdLaboratorio')
                  ->options( Options::inst()

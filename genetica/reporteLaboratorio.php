@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Reporte Admin </title>
+	<title>Unidad Génetica reportes</title>
     <!--foundation -->
     <link rel="stylesheet" href="../fonts/foundation-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
@@ -19,10 +19,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.foundation.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+    
     <script type="text/javascript" language="javascript" src="../js/dataTables.editor.min.js"></script>
     <script type="text/javascript" src="https://editor.datatables.net/extensions/Editor/js/editor.foundation.min.js"></script>
-
-    	
     <link rel="stylesheet" type="text/css" href="resources/demo.css">
     
     <script type="text/javascript" language="javascript" class="init">
@@ -41,11 +40,11 @@
             
                 ajax:"scripts/r_Laboratorio.php",
                 columns:[
-                    {data:"tipoestudio.Nombre"},
+                    {data:"tipoestudio.NombreEstudio"},
                     {data: "usuario",
                         render: function(data, type, row)
                      {
-                         return data.Nombre+' '+data.Apellido;
+                         return data.nombre+' '+data.apellido;
                      }
                     },
                     {data:"altaestudios.FechaEstudio"},
@@ -72,7 +71,7 @@
     
     <body class="dt-example">
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
 	<div class="container">
 		<section>
@@ -90,10 +89,7 @@
 					</tr>
 				</thead>
                 <tbody>
-             
-                    
                 </tbody>
-			
 			</table>
 		
 		</section>

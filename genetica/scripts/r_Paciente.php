@@ -16,7 +16,7 @@ use
 	DataTables\Editor\Options,
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
-
+    $db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
    
@@ -37,13 +37,13 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
     
 
           Field::inst('altaestudios.IdTipoEstudio'),
-                Field::inst('tipoestudio.Nombre')     
+                Field::inst('tipoestudio.NombreEstudio')     
 
     )
    
     ->leftJoin('tipoestudio', 'altaestudios.IdTipoEstudio', '=', 'tipoestudio.IdTipoEstudio')
     ->leftJoin('archivo', 'altaestudios.archivo', '=', 'archivo.IdArchivo')
     // Reemplazar por la variable de sesion hardcodeada
-    ->where('altaestudios.IdUsuario',2)
+   // ->where('altaestudios.IdUsuario',2)
 	->process( $_POST )
 	->json();

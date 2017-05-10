@@ -34,19 +34,24 @@
                     table:"#usuarios",  
                     fields:[{
                         label:"Nombre",
-                        name:"Nombre"
+                        name:"nombre"
                 },
                     {
                         label:"Apellido",
-                        name:"Apellido"
+                        name:"apellido"
                 },
                     {
                         label:"Correo",
-                        name:"Correo"
+                        name:"email"
                 },
                     {
                         label:"Telefono",
-                        name:"Telefono"
+                        name:"telefono"
+                },
+                    {
+                        label:"Contraseña",
+                        name:"password",
+                        type:'password'
                 },
                     {
                         label:"Perfil",
@@ -57,11 +62,18 @@
                             { label: "Médico",          value:2  },
                             { label: "Laboratorista",   value:3  },
                             { label: "Paciente",        value:4  }
+                        ]     
+                },
+                    {
+                        label:"Estatus",
+                        name:"activo",
+                        type:"select",
+                        options:[
+                            { label:"Inactivo", value:0 },
+                            { label:"Activo",   value:1}
                         ]
-                        
                 }
-                    
-                    ] 
+                ] 
             });
             
          var table= $("#usuarios").DataTable({
@@ -78,16 +90,14 @@
                 ajax:"scripts/altaUsuario.php",
                 columns:[
                     {data:null, render:function(data, type, row){
-                        return data.Nombre+' '+data.Apellido;
-                    }
-                        
-                     
+                            return data.nombre+' '+data.apellido;
+                        }
                     },
     
-                    {data:"Correo"},
-                    {data:"Telefono"},
-                    {data:"IdPerfil"}
-
+                    {data:"email"},
+                    {data:"telefono"},
+                    {data:"perfil"},
+                    {data:"activo"}
                 ],
                 select:true
            } );
@@ -122,7 +132,7 @@
     </head>
     <body>
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
     
 
@@ -137,6 +147,7 @@
 						<th>Correo</th>
                         <th>Teléfono</th>
 						<th>Perfil</th>
+                        <th>Estatus</th>
             
 					</tr>
 				</thead>

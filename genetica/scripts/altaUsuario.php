@@ -21,11 +21,14 @@ use
 Editor::inst( $db, 'usuario', 'IdUsuario')
    
 	->fields(
-        Field::inst('Nombre'),
-        Field::inst('Apellido'),
-        Field::inst('Correo'),
-        Field::inst('Telefono'),
-        Field::inst('IdPerfil')
+        Field::inst('nombre'),
+        Field::inst('apellido'),
+        Field::inst('email'),
+        Field::inst('telefono'),
+        Field::inst('password'),
+        Field::inst('activo'),
+        Field::inst('perfil')
+        
         
             
             

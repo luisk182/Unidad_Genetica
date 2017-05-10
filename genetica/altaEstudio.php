@@ -56,7 +56,7 @@
                 },
                
                 ajax:"scripts/r_Estudios.php",
-                columns:[{data:"ClaveEstudio"},{data:"Nombre"}],
+                columns:[{data:"ClaveEstudio"},{data:"NombreEstudio"}],
                 select:true
            } );
                 
@@ -93,7 +93,7 @@
     </head>
     <body>
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
     
 

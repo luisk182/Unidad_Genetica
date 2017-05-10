@@ -89,7 +89,7 @@
     </head>
     <body>
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
     
 

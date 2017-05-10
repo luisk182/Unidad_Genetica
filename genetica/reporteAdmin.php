@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html>
+<?php
+
+session_start();
+//
+//
+//if ( $_SESSION['logged_in'] != 1 ) {
+//  $_SESSION['message'] = "You must log in before viewing your profile page!";
+//  header("location: error.php");    
+//}
+//else {
+//    
+//    $nombre = $_SESSION['nombre'];
+//    $apellido = $_SESSION['apellido'];
+//    $email = $_SESSION['email'];
+//    $activo = $_SESSION['activo'];
+//}
+?>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Reporte Admin </title>
+	<title>Unidad Génetica reportes</title>
     <!--foundation -->
     <link rel="stylesheet" href="../fonts/foundation-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
@@ -93,7 +110,7 @@
                     {data:"tipoestudio.ClaveEstudio"},
                     {data:"usuario",
                         render: function (data, type, row){
-                            return data.Nombre+' '+data.Apellido;
+                            return data.nombre+' '+data.apellido;
                             
                         }    
                     },
@@ -146,7 +163,7 @@
     </head>
     <body class="dt-example">
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
 	<div class="container">
 		<section>
