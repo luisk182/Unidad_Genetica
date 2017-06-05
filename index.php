@@ -1,5 +1,5 @@
 <?php 
-/* Main page with two forms: sign up and log in */
+ob_start();
 require 'conexion.php';
 session_start();
 ?>
@@ -10,107 +10,64 @@ session_start();
       <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Unidad Genética</title>
-        <link rel="stylesheet" href="css/main.css">
+        
         <!-- Compressed CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css">
-  
-        <!-- Compressed JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
-        <script src="js/foundation/foundation.alerts.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="js/foundation/foundation.alerts.js"></script>
+		<?php include('header.php'); ?>
 
 </head>
-
-<?php 
+<?php      
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-    if (isset($_POST['login'])) { 
-
+    if (isset($_POST['login'])) {       
         require 'login.php';
         $error=$_SESSION['message'];
     }
-    
-//    elseif (isset($_POST['register'])) { 
-//        
-//        require 'register.php';
-//        
-//    }
 }
 ?>
     <body>
-<section class="logform">
-   
-    <div class="row columns">
-        <div class="medium-offset-8"></div>
-        <div class="medium-4 columns">
-            <div class="log-in-form">
-                <form action="index.php" method="post" autocomplete="off">  
-                    <h4>Inicia sesión</h4>
-                 
-                        <input type="email" required autocomplete="off" name="email" placeholder="Email"/>
-                        <input type="password" required autocomplete="off" name="password" placeholder="Contraseña"/>
 
-                        <button class="button button expanded" name="login">Iniciar sesión </button>
+    <div class="row">
+        
+        <div class="medium-4 columns log-in-form">
+         
+                <form action="index.php" method="post" autocomplete="off">  
+                    <h4>Resultados</h4>
+                        <label for="login">Correo registrado</label>
+                        <input type="email" required autocomplete="off" name="email"/>
+                        <label for="pass">Contraseña</label>
+                        <input type="password" required autocomplete="off" name="password"/>
+
+                        <button class="button small expand" name="login">Iniciar sesión </button>
                          <p class="forgot"><a href="forgot.php">¿Olvidaste tu contraseña?</a></p>
-                        <?php 
-                            if($error){ echo $error;} 
-                        ?>
+                    
                   </form>
-            </div>
+				      <?php 
+                            if($error){
+
+								echo '  <div data-alert class="alert-box alert" tabindex="0" aria-live="assertive" role="alertdialog">'.$error.'<button tabindex="0" class="close" 
+								aria-label="Close Alert">&times;</button>
+								</div>';
+							
+							} 
+                        ?>
+       
+        </div>
+        <div class="medium-4 columns info-consulta">
+		
+            <h4>Consulta de resultados</h4>   
+            <p>Para consulta de resultados se proveerá de una cuenta de acceso al momento de solicitar la realización de estudios en las instalaciones de Unidad de Genética Aplicada.
+			Dudas o aclaraciones <a href="mailto:contacto@unidadgenetica.com">contacto@unidadgenetica.com</a></p>
         </div>
            
     </div>
-                    
-</section>
-  
-<!--
-      <div class="row columns">
-        <div class="medium-offset-8"></div>
-        <div class="medium-4 columns">
-     <div id="signup">   
-          
-          <form action="index.php" method="post" autocomplete="off">
-          <div class="top-row">
-            <div class="field-wrap">
-              <label>
-                First Name<span class="req">*</span>
-              </label>
-              <input type="text" required autocomplete="off" name='firstname' />
-            </div>
-        
-            <div class="field-wrap">
-              <label>
-                Last Name<span class="req">*</span>
-              </label>
-              <input type="text"required autocomplete="off" name='lastname' />
-            </div>
-          </div>
-
-          <div class="field-wrap">
-            <label>
-              Email Address<span class="req">*</span>
-            </label>
-            <input type="email"required autocomplete="off" name='email' />
-          </div>
-          
-          <div class="field-wrap">
-            <label>
-              Set A Password<span class="req">*</span>
-            </label>
-            <input type="password"required autocomplete="off" name='password'>
-          </div>
-          
-          <button type="submit" class="button expanded" name="register" >Register</button>
-          
-          </form>
-            </div>
-          </div>
-          
-        </div> 
--->
-          
     <script src="js/index.js"></script>
-
     </body>
+	<script type="text/javascript">
+
+				$(document).foundation();
+	
+	</script>
 </html>
+<?php
+ob_end_flush();
+?>

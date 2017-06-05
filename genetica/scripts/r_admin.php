@@ -19,6 +19,7 @@ use
 $db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
+	->debug(true)
 	->fields(
     
         Field::inst( 'altaestudios.FechaEstudio' )
@@ -37,18 +38,43 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
                         ->table( 'usuario'  )
                         ->value( 'IdUsuario' )
                         ->label( 'nombre'   )
+						->where( function ($q) {
+							$q->where( 'perfil', 3 );
+						} )
                     )
+					
                     // validador de datos
                     ->validator( 'Validate::dbValues' ),
                 // campo de el left join
                 Field::inst( 'usuario.nombre'),
                     Field::inst('usuario.apellido'), //Join para render de apellido
+					
+					// Datos del medico 
+					
+			
+                Field::inst( 'altaestudios.IdMedico' )
+   
+                    ->options( Options::inst()
+                        ->table( 'usuario'  )
+                        ->value( 'IdUsuario' )
+                        ->label( 'nombre'   )
+						->where( function ($q) {
+							$q->where( 'perfil', 2 );
+						} )
+                    )
+					
+                    // validador de datos
+                    ->validator( 'Validate::dbValues' ),
+                // campo de el left join
+               
+					
           
         Field::inst( 'altaestudios.IdLaboratorio')
                  ->options( Options::inst()
                         ->table( 'laboratorio')
                         ->value( 'IdLaboratorio' )
                         ->label( 'NombreLaboratorio')
+						
                     )
                     // validador de datos
                     ->validator( 'Validate::dbValues' ),
@@ -73,7 +99,7 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
     
                 Field::inst( 'altaestudios.archivo' )
                 ->setFormatter( 'Format::ifEmpty', null )
-                ->upload( Upload::inst( $_SERVER['DOCUMENT_ROOT'].'/upload/estudioNumero__ID__.__EXTN__' )
+                ->upload( Upload::inst( $_SERVER['DOCUMENT_ROOT'].'/archivos/estudioNumero__ID__.__EXTN__' )
                     ->db( 'archivo', 'IdArchivo', array(
                         'NombreArchivo'    => Upload::DB_FILE_NAME,
                         'Tamano'    => Upload::DB_FILE_SIZE,
@@ -81,6 +107,7 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
                         'local_path' => Upload::DB_SYSTEM_PATH
                     ) 
                 )
+			
 
                     ->allowedExtensions( array( 'pdf'), "Archivo no válido" )
             )

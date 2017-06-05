@@ -8,7 +8,7 @@
            
             <ul class="right">
                 <li class="has-dropdown not-click">
-                    <a href="#"><i class="fi-torso"></i> <?php echo $nombre;?> </a>
+                    <a href="#"><i class="fi-torso"></i> <?php echo $nombre ?> </a>
                     <ul class="dropdown">
                         <li><a href="profile.php">Perfil</a></li>
                         <li><a href="../logout.php">Salir</a></li>
@@ -16,18 +16,17 @@
                 </li>
             </ul>
             <ul class="left">
-				<li><a href="reporteAdmin.php">Reporte</a></li>
-  
-                <li class="has-dropdown not-click">              
-                    <a href="#">Agregar</a>
-                        <ul class="dropdown">
-                            <li><a href="registrousuario.php">Usuarios</a></li>
-                            <li><a href="altaLaboratorio.php">Laboratorio</a></li>
-                            <li><a href="altaEstudio.php">Estudios</a></li>
-                        </ul>
-                </li>
+			<?php if($perfil==3){
+				echo '<li><a href="reportePaciente.php">Reporte</a></li>';
+			}
+			else 
+				if($perfil==2){
+				echo '<li><a href="reporteMedico.php">Reporte</a></li>';
+				}
+				else{
+					echo '<li><a href="reporteLaboratorio.php">Reporte</a></li>';
+				}
+				
+				?>
             </ul>
-
           </section>
-		  
-		  

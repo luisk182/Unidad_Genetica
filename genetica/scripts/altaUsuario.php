@@ -16,25 +16,22 @@ use
 	DataTables\Editor\Options,
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
-
+$db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'usuario', 'IdUsuario')
-   
+  
 	->fields(
-        Field::inst('nombre'),
-        Field::inst('apellido'),
-        Field::inst('email'),
-        Field::inst('telefono'),
-        Field::inst('password'),
-        Field::inst('activo'),
-        Field::inst('perfil')
-        
-        
-            
-            
+        Field::inst('usuario.nombre'),
+        Field::inst('usuario.apellido'),
+        Field::inst('usuario.email'),
+        Field::inst('usuario.telefono'),
+        Field::inst('usuario.password'),
+        Field::inst('usuario.activo'),
+        Field::inst('usuario.perfil'),
+			Field::inst('perfil.NombrePerfil')
 
     )
    
-//    ->leftJoin('perfil', 'usuario.IdPerfil', '=', 'perfil.IdPerfil')
+    ->leftJoin('perfil', 'usuario.perfil', '=', 'perfil.IdPerfil')
 	->process( $_POST )
 	->json();

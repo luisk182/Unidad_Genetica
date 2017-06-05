@@ -6,21 +6,32 @@ session_start();
 <html>
 <head>
   <title>Success</title>
-  <?php include 'css/css.html'; ?>
+  <?php include('header.php'); ?>
 </head>
 <body>
-<div class="form">
-    <h1><?= 'Success'; ?></h1>
-    <p>
-    <?php 
-    if( isset($_SESSION['message']) AND !empty($_SESSION['message']) ):
-        echo $_SESSION['message'];    
-    else:
-        header( "location: index.php" );
-    endif;
-    ?>
-    </p>
-    <a href="index.php"><button class="button button-block"/>Home</button></a>
+
+   
+   
+    <div class="row">
+            <div class="medium-4 medium-centered text-center">
+                <div class="log-out">
+                   <h3>Listo</h3>
+                         <?php 
+						if( isset($_SESSION['message']) AND !empty($_SESSION['message']) ):
+							echo $_SESSION['message'];    
+						else:
+							header( "location: index.php" );
+						endif;
+						?>
+						
+                    <a href="index.php">
+                        <button class="button expand small">
+                            Ir al inicio
+                        </button>
+                    </a>
+                </div>
+            </div>
+		</div>
 </div>
 </body>
 </html>

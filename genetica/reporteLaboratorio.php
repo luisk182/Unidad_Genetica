@@ -1,28 +1,31 @@
 <!DOCTYPE html>
+<?php
+session_start();
+if ($_SESSION['perfil']!=1) 
+	{
+	echo "No tiene suficiente permisos";die;
+	//header("location: ../error.php");   
+	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+	}
+else {
+ 
+   
+   $nombre = $_SESSION['nombre'];
+   $apellido = $_SESSION['apellido'];
+   $email = $_SESSION['email'];
+   $activo = $_SESSION['activo'];
+	$perfil=$_SESSION['perfil'];
+	$idusuario= $_SESSION['IdUsuario'];
+}
+?>
 <html>
 <head>
     <meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+
 	<title>Unidad Génetica reportes</title>
-    <!--foundation -->
-    <link rel="stylesheet" href="../fonts/foundation-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.1/css/select.foundation.min.css">
-    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.foundation.min.css">
-    
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
-    
-    <script type="text/javascript" language="javascript" src="../js/dataTables.editor.min.js"></script>
-    <script type="text/javascript" src="https://editor.datatables.net/extensions/Editor/js/editor.foundation.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="resources/demo.css">
+   <?php   include('header_in.php');
+            include ('dtheader.php');
+    ?>
     
     <script type="text/javascript" language="javascript" class="init">
           var editor;
@@ -34,31 +37,41 @@
             });
            $("#paciente").DataTable({
                 "language":{
-                    "url": "./lenguaje/spanish.json"
+                    "url": "./lenguaje/spanish.json",
+					"select":{
+						"rows":{
+							"_":"%d filas seleccionadas",
+							"0":"",
+							"1":"1 fila seleccionada"
+						}
+					}
                 },
-                dom:"Bftrip",
+                 initComplete: function (settings, json){
+                            table.buttons().container()
+                            .appendTo( $('.small-6.columns:eq(0)', table.table().container() ) );
+                
+                },
             
                 ajax:"scripts/r_Laboratorio.php",
                 columns:[
-                    {data:"tipoestudio.NombreEstudio"},
+                   
                     {data: "usuario",
                         render: function(data, type, row)
                      {
                          return data.nombre+' '+data.apellido;
                      }
                     },
+					 {data:"tipoestudio.NombreEstudio"},
                     {data:"altaestudios.FechaEstudio"},
                     {data:"archivo.web_path",
                         render: function(data){
-                            return '<a href="'+data+'" download><i class="fi-download"></i> Archivo</a>';
+                            return '<a href="'+data+'" download><i class="fi-download"></i> Archivo</a>' +' / '+ '<a href="'+data+'" target="_blank"><i class="fi-eye"></i> Ver</a>';
                         }
-                    }          
+                    }
                     
                 ],
                 select:false,
-                 buttons:[
-  
-		]   
+                 buttons:[]   
            } );
             
      });
@@ -70,10 +83,11 @@
     
     
     <body class="dt-example">
-    <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.php'); ?>
+    <nav class="top-bar" role="navigation">
+        <?php include('menu_pac.php'); ?>
     </nav>
-	<div class="container">
+	<div class="row">
+		<div class="medium-12 columns"
 		<section>
 			<h1>Reporte </h1>
 			
@@ -81,8 +95,8 @@
 			<table id="paciente" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
+					   <th>Nombre Paciente</th>
 						<th>Nombre de estudio</th>
-                        <th>Nombre Paciente</th>
 						<th>Fecha Estudio</th>
 						<th>Archivo</th>
                        
@@ -94,7 +108,7 @@
 		
 		</section>
 	</div>
-	
+</div>
 </body>
     
 </html>

@@ -1,46 +1,33 @@
 <!DOCTYPE html>
-<html>
 <?php
-
 session_start();
-//
-//
-//if ( $_SESSION['logged_in'] != 1 ) {
-//  $_SESSION['message'] = "You must log in before viewing your profile page!";
-//  header("location: error.php");    
-//}
-//else {
-//    
-//    $nombre = $_SESSION['nombre'];
-//    $apellido = $_SESSION['apellido'];
-//    $email = $_SESSION['email'];
-//    $activo = $_SESSION['activo'];
-//}
+
+if ($_SESSION['perfil']!=4) 
+	{
+	echo "No tiene suficiente permisos";die;
+	//header("location: ../error.php");   
+	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+	}
+else {
+ 
+   
+   $nombre = $_SESSION['nombre'];
+   $apellido = $_SESSION['apellido'];
+   $email = $_SESSION['email'];
+   $activo = $_SESSION['activo'];
+	
+	$perfil=$_SESSION['perfil'];
+	$idusuario= $_SESSION['IdUsuario'];
+}
 ?>
+<html>
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Unidad Génetica reportes</title>
-    <!--foundation -->
-    <link rel="stylesheet" href="../fonts/foundation-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.1/css/select.foundation.min.css">
-    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.foundation.min.css">
-    <!-- Scripts js -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="../js/dataTables.editor.min.js"></script>
-    <script type="text/javascript" src="editor.autoComplete.js"></script>
-    <script type="text/javascript" src="https://editor.datatables.net/extensions/Editor/js/editor.foundation.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="resources/demo.css">
+	<?php   include('header_in.php');
+            include ('dtheader.php');
+			
+    ?>
+
 	    <script type="text/javascript" language="javascript" class="init">
           var editor;
             $(document).ready(function(){
@@ -56,12 +43,17 @@ session_start();
                         }
                 }, 
                     {
-                        label:" Usuario",
+                        label:"Usuario",
                         name:"altaestudios.IdUsuario", //Select llenado dinamicamente del left join
                         type:"autoComplete",
                         placeholder:"Elija usuario"
                 },
-                   
+					{
+						label:"Medico",
+                        name:"altaestudios.IdMedico", //Select llenado dinamicamente del left join
+                        type:"autoComplete",
+                        placeholder:"Elija usuario"
+				},
                     {
                         label:"Laboratorio",
                         name:"altaestudios.IdLaboratorio",
@@ -88,16 +80,41 @@ session_start();
                         type:"upload",
                             display: function(file_IdArchivo){
                             return editor.file('archivo', file_IdArchivo).NombreArchivo;
-                            }
+                            },
+							dragDropText:"Arrastra y suelta un archivo",
+							uploadText:"Seleccionar archivo...",
+							fileReadText:"Cargando",
+							noFileText:"No hay archivo"
+							
+							
                 }        
-                    ] 
+                    ],
+					i18n: {
+							edit: {submit: "Guardar"},
+							create:{submit:"Crear"},
+							remove:{
+								submit:"Borrar",
+								confirm:{
+									_: "¿Estas seguro que deseas borrar %d registros?",
+									1: "¿Estas seguro que deseas borrar 1 registro?"
+								}
+							}
+							
+					}							
             });
             
          var table= $("#reporte").DataTable({
               lengthChange: false,
                
                 "language":{
-                    "url": "./lenguaje/spanish.json"
+                    "url": "./lenguaje/spanish.json",
+					"select":{
+						"rows":{
+							"_":"%d filas seleccionadas",
+							"0":"Seleccione una fila",
+							"1":"1 fila seleccionada"
+						}
+					}
                 },
                 initComplete: function (settings, json){
                             table.buttons().container()
@@ -124,10 +141,11 @@ session_start();
                     {data:"altaestudios.archivo",
                         render: function(file_IdArchivo){
                            return  file_IdArchivo?
-                               '<a href="'+editor.file('archivo', file_IdArchivo).web_path+'" download><i class="fi-download"></i> Archivo</a> / '+  '<a href="'+editor.file('archivo', file_IdArchivo).web_path+'"><i class="fi-eye"></i>Ver</a>' :
+                               '<a href="'+editor.file('archivo', file_IdArchivo).web_path+'" download><i class="fi-download"></i> Archivo</a> / '+  '<a href="'+editor.file('archivo', file_IdArchivo).web_path+'" target="_blank"><i class="fi-eye"></i>Ver</a>' :
                                'No hay archivos';
                             }
-                    }
+                    },
+					{data:"altaestudios.IdMedico"}
                 ],
                 select:true
                    
@@ -161,11 +179,13 @@ session_start();
 
     </script>    
     </head>
+	
     <body class="dt-example">
-    <nav class="top-bar" data-topbar role="navigation">
+    <div class="top-bar">
         <?php include('menu.php'); ?>
-    </nav>
-	<div class="container">
+    </div>
+        <div class="row">
+	<div class="medium-11 medium-centered columns">
 		<section>
 			<h1>Reporte administrador</h1>
             
@@ -178,6 +198,7 @@ session_start();
 						<th>Laboratorio</th>
                         <th>Estatus</th>
                         <th>Archivo</th>
+						<th>Médico</th>
 					</tr>
 				</thead>
 			
@@ -185,6 +206,15 @@ session_start();
 
 		</section>
 	</div>
+            </div>
+			
+			
 </body>
+	<script type="text/javascript">
+				
+					$(document).foundation();
+	
+				</script>
     
 </html>
+

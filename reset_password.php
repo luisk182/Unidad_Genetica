@@ -1,6 +1,6 @@
 <?php
 /* Password reset process, updates database with new user password */
-require 'db.php';
+require 'conexion.php';
 session_start();
 
 // Make sure the form is being submitted with method="post"
@@ -15,18 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $mysqli->escape_string($_POST['email']);
         $hash = $mysqli->escape_string($_POST['hash']);
         
-        $sql = "UPDATE users SET password='$new_password', hash='$hash' WHERE email='$email'";
+        $sql = "UPDATE usuario SET password='$new_password', hash='$hash' WHERE email='$email'";
 
         if ( $mysqli->query($sql) ) {
 
-        $_SESSION['message'] = "Your password has been reset successfully!";
+        $_SESSION['message'] = "Tu contraseña se ha restablecido correctamente!";
         header("location: success.php");    
 
         }
 
     }
     else {
-        $_SESSION['message'] = "Two passwords you entered don't match, try again!";
+        $_SESSION['message'] = "Las contraseñas no coinciden";
         header("location: error.php");    
     }
 
