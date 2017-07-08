@@ -1,5 +1,5 @@
 <?php
-
+/* Log out process, unsets and destroys session variables */
 session_start();
 session_unset();
 session_destroy(); 
@@ -8,28 +8,26 @@ session_destroy();
 <html>
 <head>
   <meta charset="UTF-8">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Unidad Genética</title>
-        <link rel="stylesheet" href="css/main.css">
-         <!-- Compressed CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css">
-
-        <!-- Compressed JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js"></script>
-       
-          <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
+  <title>Salir</title>
+        <!-- Compressed CSS -->
+       <?php include('header.php'); ?>
 </head>
-
 <body>
-    <div>
-          <h1>Has salido correctamente</h1>
-              
-          <p><?= 'You have been logged out!'; ?></p>
-          
-          <a href="index.php"><button class="button button-block"/>Home</button></a>
 
-    </div>
+        <div class="row">
+            <div class="medium-4 medium-centered small-8 small-centered columns">
+                <div class="log-out text-center">
+                    <h3>¡Adiós!</h3>
+                        <p><?= 'Has cerrado sesión corretamente.'; ?></p>
+          
+                    <a href="../index.php">
+                        <button class="button expand small">
+                            Ir al inicio
+                        </button>
+                    </a>
+                </div>
+            </div>
+		</div>
+    
 </body>
 </html>

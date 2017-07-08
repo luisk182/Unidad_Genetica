@@ -1,0 +1,7 @@
+colores foundation
+
+fondo: #F9F9F9
+tag: #008080
+atribute : #000080
+string / double string: #DD1144
+color letra :#363636

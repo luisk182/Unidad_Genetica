@@ -1,12 +1,9 @@
 <?php
-
 /*
  * Example PHP implementation used for the index.html example
  */
-
-// DataTables PHP library
+ session_start();
 include( "../../php/DataTables.php" );
-
 
 use
 	DataTables\Editor,
@@ -16,12 +13,14 @@ use
 	DataTables\Editor\Options,
 	DataTables\Editor\Upload,
 	DataTables\Editor\Validate;
-
-// Libreria para captura, lectura y edicion de datos
+	
+    $db->sql( "SET NAMES 'utf8'" );
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
-   
-	->fields(
-    
+	
+	->debug(true)
+	->field(
+	 
+			
         Field::inst('altaestudios.FechaEstudio')
     	->validator( 'Validate::dateFormat', array(
 				"format"  => Format::DATE_ISO_8601,
@@ -33,17 +32,23 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
         Field::inst('altaestudios.activo'),
             
         Field::inst('altaestudios.archivo'),
-                Field::inst('archivo.web_path'),
+			Field::inst('archivo.web_path'),
     
 
           Field::inst('altaestudios.IdTipoEstudio'),
-                Field::inst('tipoestudio.Nombre')     
-
+                Field::inst('tipoestudio.NombreEstudio'),
+				
+		 Field::inst( 'altaestudios.userid' )
+			
+			->setValue($_SESSION['IdUsuario'])
+			
+			
     )
-   
+	->where('altaestudios.IdUsuario',$_SESSION['IdUsuario']) // my new variable if I set a number like 63 I get results.
+	
     ->leftJoin('tipoestudio', 'altaestudios.IdTipoEstudio', '=', 'tipoestudio.IdTipoEstudio')
     ->leftJoin('archivo', 'altaestudios.archivo', '=', 'archivo.IdArchivo')
-    // Reemplazar por la variable de sesion hardcodeada
-    ->where('altaestudios.IdUsuario',2)
+   
+
 	->process( $_POST )
 	->json();

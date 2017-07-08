@@ -1,30 +1,31 @@
 <!DOCTYPE html>
+<?php
+session_start();
+
+if ($_SESSION['perfil']!=4) 
+	{
+	echo "No tiene suficiente permisos";die;
+	//header("location: ../error.php");   
+	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+	}
+else {
+ 
+   
+   $name = $_SESSION['nombre'];
+   $apellido = $_SESSION['apellido'];
+   $email = $_SESSION['email'];
+   $activo = $_SESSION['activo'];
+
+}
+?>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Unidad Genética - Alta usuarios </title>
-    <!--foundation -->
-    <link rel="stylesheet" href="../fonts/foundation-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-    
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.1/css/select.foundation.min.css">
-    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.foundation.min.css">
-    <!-- Scripts js -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.foundation.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="../js/dataTables.editor.min.js"></script>
-    <script type="text/javascript" src="editor.autoComplete.js"></script>
-    <script type="text/javascript" src="https://editor.datatables.net/extensions/Editor/js/editor.foundation.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="resources/demo.css">
+	<title>Unidad Genética - Laboratorios</title>
+    <?php   include('header_in.php');
+            include ('dtheader.php');
+    ?>
     
     <script type="text/javascript" language="javascript" class="init">
           var editor;
@@ -37,13 +38,31 @@
                         label:"Nombre",
                         name:"NombreLaboratorio"
                 }
-                    ] 
+                    ],
+					i18n: {
+							edit: {submit: "Guardar"},
+							create:{submit:"Crear"},
+							remove:{
+								submit:"Borrar",
+								confirm:{
+									_: "¿Estas seguro que deseas borrar %d lineas?",
+									1: "¿Estas seguro que deseas borrar 1 línea?"
+								}
+						}	
+					}							
             });
             
          var table= $("#laboratorio").DataTable({
         
                 "language":{
-                    "url": "./lenguaje/spanish.json"
+                    "url": "./lenguaje/spanish.json",
+					"select":{
+						"rows":{
+							"_":"%d filas seleccionadas",
+							"0":"Seleccione una fila",
+							"1":"1 fila seleccionada"
+						}
+					}
                 },
                 initComplete: function (settings, json){
                             table.buttons().container()
@@ -76,10 +95,10 @@
                     editor: editor,
                     formTitle:"¿Estás seguro que deseas borrarlo?"
                 },
-                {
-                    extend:"copy",
-                    text:"Copiar"
-                },
+				{
+				text: 'Exportar Excel',
+                extend: 'excel'
+            }
 
             ] );
         });
@@ -89,7 +108,7 @@
     </head>
     <body>
     <nav class="top-bar" data-topbar role="navigation">
-        <?php include('menu.html'); ?>
+        <?php include('menu.php'); ?>
     </nav>
     
 
@@ -97,7 +116,7 @@
 		<section>
 		
             <div class="row">
-                 <div class="small-10 small-offset-1 columns">
+                 <div class="small-12 columns">
                     <h1>Alta Laboratorio</h1>
 			         <table id="laboratorio" class="display" cellspacing="0" width="100%">
                         <thead>
