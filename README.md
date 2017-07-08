@@ -22,9 +22,9 @@ Pendiente.
 
 ## Documentación 
 
-### Configuración Datatables 
+### Configuración de conexión datatables 
 
-```../php/config.php```
+```/php/config.php```
 
 ```php
 $sql_details = array(
@@ -36,5 +36,15 @@ $sql_details = array(
 	"db"   => "u_genetica_test",   // Nombre base de datos
 	"dsn"  => ""                  // Charset utf-8
 );
+```
+### Reportes
+
+
+```/genetica/altaEstudio.php
+/genetica/altaLaboratorio.php
+/genetica/altaUsuarios.php
+/genetica/reporteAdmin.php
+/genetica/reportePaciente.php
+/genetica/reporteMedico.php
 ```
 
