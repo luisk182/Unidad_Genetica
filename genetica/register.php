@@ -9,12 +9,13 @@ $nombre = $mysqli->escape_string($_POST['nombre']);
 $apellido = $mysqli->escape_string($_POST['apellido']);
 $telefono = $mysqli->escape_string($_POST['telefono']);
 $perfil = $mysqli->escape_string($_POST['perfil']);
+$laboratorio = $mysqli->escape_string($_POST['laboratorio']);
 $email = $mysqli->escape_string($_POST['email']);
 $password = $mysqli->escape_string(password_hash($_POST['password'], PASSWORD_BCRYPT));
 $hash = $mysqli->escape_string( md5( rand(0,1000) ) );
 $alert="";      
 $passuncrypt=$_POST['password'];
-
+$enviarcorreo= $_POST['enviar'];
 $result = $mysqli->query("SELECT * FROM usuario WHERE email='$email'") or die($mysqli->error());
 
 
@@ -24,11 +25,11 @@ if ( $result->num_rows > 0 ) {
 
 }
 else { 
-    $sql = "INSERT INTO usuario (nombre, apellido, email, password, hash, telefono, perfil) " 
-            . "VALUES ('$nombre','$apellido','$email','$password', '$hash', '$telefono', '$perfil')";
+    $sql = "INSERT INTO usuario (nombre, apellido, email, password, hash, telefono, perfil, laboratorio) " 
+            . "VALUES ('$nombre','$apellido','$email','$password', '$hash', '$telefono', '$perfil', '$laboratorio')";
 
-   
-    if ( $mysqli->query($sql) ){
+    $_SESSION['alert']="Usuario registrado con éxito";
+    if ( $mysqli->query($sql) and  $enviarcorreo=="si"){
 
         $_SESSION['activo'] = 0; 
         $_SESSION['logged_in'] = true; 
@@ -38,18 +39,115 @@ else {
 
      
         $to      = $email;
-		$subject  = 'Correo de verificaciòn';
+		$subject  = 'Correo de verificación';
 		$headers = 'MIME-Version: 1.0' . "\r\n";  
+		$headers .= 'From: activacioncuenta@unidadgenetica.com' . "\r\n";  
 		$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 		
 		
-        $body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="background:#f3f3f3!important"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width"><title>Correo de verificación Unidad genética</title><style>@media only screen{html{min-height:100%;background:#f3f3f3}}@media only screen and (max-width:596px){.small-float-center{margin:0 auto!important;float:none!important;text-align:center!important}}@media only screen and (max-width:596px){table.body img{width:auto;height:auto}table.body center{min-width:0!important}table.body .container{width:95%!important}table.body .columns{height:auto!important;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;padding-left:16px!important;padding-right:16px!important}table.body .columns .columns{padding-left:0!important;padding-right:0!important}table.body .collapse .columns{padding-left:0!important;padding-right:0!important}th.small-6{display:inline-block!important;width:50%!important}th.small-12{display:inline-block!important;width:100%!important}.columns th.small-12{display:block!important;width:100%!important}table.menu{width:100%!important}table.menu td,table.menu th{width:auto!important;display:inline-block!important}table.menu.vertical td,table.menu.vertical th{display:block!important}table.menu[align=center]{width:auto!important}}</style></head><body style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f3f3f3!important;box-sizing:border-box;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;min-width:100%;padding:0;text-align:left;width:100%!important"><span class="preheader" style="color:#f3f3f3;display:none!important;font-size:1px;line-height:1px;max-height:0;max-width:0;mso-hide:all!important;opacity:0;overflow:hidden;visibility:hidden"></span><table class="body" style="Margin:0;background:#f3f3f3!important;border-collapse:collapse;border-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;height:100%;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><td class="center" align="center" valign="top" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><center data-parsed="" style="min-width:580px;width:100%"><table align="center" class="container verificacion float-center" style="Margin:0 auto;background:#fefefe;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:580px"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><td height="30px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:30px;font-weight:400;hyphens:auto;line-height:30px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td></tr></tbody></table><table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;padding-left:16px;padding-right:16px;text-align:left;width:564px"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"><img src="http://www.unidadgenetica.com/wp/wp-content/uploads/logo.png" alt="" style="-ms-interpolation-mode:bicubic;clear:both;display:block;max-width:100%;outline:0;text-decoration:none;width:auto"></th><th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th></tr></table></th></tr></tbody></table><table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><td height="16px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:16px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td></tr></tbody></table><table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;padding-left:16px;padding-right:16px;text-align:left;width:564px"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"><h4 style="Margin:0;Margin-bottom:10px;color:inherit;font-family:Helvetica,Arial,sans-serif;font-size:24px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left;word-wrap:normal">Bienvenido</h4><p style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><strong>'.$nombre.'</strong></p><center data-parsed="" style="min-width:532px;width:100%"><p align="center" class="float-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><span class="cita" style="color:#2199e8"><strong>"Antes pensábamos que nuestro futuro estaba en las estrellas, ahora sabemos que está en nuestros genes"</strong></span> - James Watson</p><p align="center" class="float-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">Verifica tu correo y accede a tus resultados en línea</p><p align="center" class="float-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><strong>Usuario: <i>'.$email.'</i></strong></p><p align="center" class="float-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><strong>Contraseña: <i>'.$passuncrypt.'</i></strong></p><table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><td height="15px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:400;hyphens:auto;line-height:15px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td></tr></tbody></table><table class="button float-center" style="Margin:0 0 16px 0;border-collapse:collapse;border-spacing:0;float:none;margin:0 0 16px 0;padding:0;text-align:center;vertical-align:top;width:auto"><tr style="padding:0;text-align:left;vertical-align:top"><td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#2199e8;border:2px solid #2199e8;border-collapse:collapse!important;color:#fefefe;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="http://unidadgenetica.com/wp/SistemaUG/verify.php?email='.$email.'&hash='.$hash.'" style="Margin:0;border:0 solid #2199e8;border-radius:3px;color:#fefefe;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none">Verifica tu correo</a></td></tr></table></td></tr></table></center></th><th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th></tr></table></th></tr></tbody></table><table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;padding-left:16px;padding-right:16px;text-align:left;width:564px"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"></th><th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th></tr></table></th></tr></tbody></table><table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;padding-left:16px;padding-right:16px;text-align:left;width:564px"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"><table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><td height="16px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:16px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td></tr></tbody></table><p class="text-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center"><small style="color:#cacaca;font-size:80%"><a href="mailto" style="Margin:0;color:#2199e8;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">contacto@unidadgenetica.com</a> - <a href="#" style="Margin:0;color:#2199e8;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">01(55) 5246 5000</a> ext. 3026 y 3027 y <a href="#" style="Margin:0;color:#2199e8;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">01(55) 5246 9610</a></small></p></th><th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th></tr></table></th></tr></tbody></table><table class="row pie" style="background-color:transparent;border-collapse:collapse;border-spacing:0;display:table;margin-top:10px;padding:0;position:relative;text-align:left;vertical-align:top;width:100%"><tbody><tr style="padding:0;text-align:left;vertical-align:top"><th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:16px;padding-left:16px;padding-right:16px;text-align:left;width:564px"><table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%"><tr style="padding:0;text-align:left;vertical-align:top"><th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"><p class="text-center" style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center"><span class="aviso" style="color:#0a0a0a;font-size:12px"><strong><a href="http://www.unidadgenetica.com/aviso-de-privacidad/" target="_blank" style="Margin:0;color:#2199e8;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">Aviso de privacidad</a></strong><br><br>Recibiste este mensaje debido a que solicitaste estudios genéticos con nosotros.<br>Si no quieres recibir estos correos de <strong>Unidad Genética Aplicada</strong> en el futuro, puedes solicitar darte de baja al siguiente correo <a href="mailto" style="Margin:0;color:#2199e8;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">contacto@unidadgenetica.com</a></span></p></th><th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th></tr></table></th></tr></tbody></table></td></tr></tbody></table></center></td></tr></table><!-- prevent Gmail on iOS font size manipulation --><div style="display:none;white-space:nowrap;font:15px courier;line-height:0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div></body></html>';
+        $body = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+  <tbody><tr>
+    <td align="center" valign="top" style="background-color:#f2f2f2">
 
+
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="500">
+        <tbody>
+          <tr>
+          <td style="display:none">
+            <div style="display:none;font-size:0px;max-height:0px;line-height:0px;padding:0">Verifica tu correo y accede a tus resultados en línea.
+          </td>
+        </tr>
+          <tr>
+          <td>
+            <span>&nbsp;</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="left" style="width:100%;max-width:520px">
+              <tbody><tr>
+                <td valign="middle" align="left" bgcolor="#ffffff" style="font-size:0pt;line-height:0pt;padding-top:16px;padding-bottom:16px;padding:20px 30px 10px 30px"> <a href="http://www.unidadgenetica.com" target="_blank" title="Visitar Unidad de Genética Aplicada"><img src="http://www.unidadgenetica.com/wp-content/uploads/logo.png" alt="Unidad de Genética Aplicada" width="256" height="89" border="0" style="display: block; max-width: 1895px;"></a> </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table bgcolor="#ffffff" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:520px">
+              <tbody><tr>
+                <td style="padding:0 30px 20px 30px" bgcolor="#ffffff">
+<table align="left" border="0" cellpadding="0" cellspacing="0" style="width:460px">
+  <tbody><tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr>
+          <td align="left" bgcolor="#fafafa" style="color: #00a0f0;font-family: arial,sans-serif;font-size: 14px;line-height: 24px;text-align: left;padding-bottom: 18px;font-weight: bold;background: #fafafa;padding: 10px 20px;"> “Antes pensábamos que nuestro futuro estaba en las estrellas, ahora sabemos que está en nuestros genes” <span style="color:#040707;text-decoration:none;font-weight:normal"><br>— James Watson.</span></td>
+
+        </tr>
+        <tr>
+          <td align="left" style="color:#040707;font-family:arial,sans-serif;font-size:22px;line-height:30px;font-weight:900;padding:20px 0 18px 0;text-align:left"> Bienvenido</td>
+        </tr>
+        <tr>
+          <td align="left" style="color:#040707;font-family:arial,sans-serif;font-size:15px;line-height:24px;text-align:left;padding-bottom:18px;font-weight:normal;"><span>'.$nombre.'</span>, verifica tu correo y accede a tus resultados en línea.<br>
+		  <span style="font-size:12px;"><strong>Para acceder a tus resultados, debes contestar una pequeña encuesta<strong><span></td>
+        </tr>
+        <tr>
+          <td align="left" style="color:#040707;font-family:arial,sans-serif;font-size:15px;line-height:24px;text-align:left;padding-bottom:18px;font-weight:normal;">
+            Usuario: <strong> <span style="color:#040707;font-family:arial,sans-serif;font-size:15px;line-height:24px;text-align:left;padding-bottom:18px;font-weight:bold;text-decoration:none;">'.$email.'</span></strong> <br>
+ 
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px 0 0 0"> <a href="#" style="text-decoration:none;border:0" target="_blank">
+            <table bgcolor="#00a0f0"  align="center" border="0" cellspacing="0" cellpadding="0" width="50%">
+              <tbody>
+                <tr>
+                  <td style="text-align:center;font-size:18px;line-height:18px;font-weight:bold;padding:14px 20px;color:#ffffff;font-family:arial,sans-serif;">
+                    <a href="http://unidadgenetica.com/SistemaUG/set.php?email='.$email.'&hash='.$hash.'" style="text-decoration:none;text-align:center;none;color:#ffffff;border:0;font-family:arial,sans-serif;" target="_blank">Establece tu contraseña</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </a> </td>
+        </tr>
+        <tr>
+          <td align="left" style="color:#040707;font-family:arial,sans-serif;line-height:24px;text-align:left;padding-top:30px;font-size:11px;"><a href="mailto:contacto@unidadgenetica.com" style="color:#00a0f0;font-weight:normal;text-decoration:none" target="_blank">contacto@unidadgenetica.com</a> - <a href="tel:5552465000" style="color:#00a0f0;font-weight:normal;text-decoration:none" target="_blank">01(55) 5246 5000</a> ext. 3026 y 3027 y <a href="tel:5552469610" style="color:#00a0f0;font-weight:normal;text-decoration:none" target="_blank">01(55) 5246 9610</a>.
+        </td></tr><tr>
+      </tr></tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+                              <tr>
+          <td>
+            <table align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:520px">
+              <tbody><tr>
+                <td bgcolor="#f2f2f2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td bgcolor="#f2f2f2" align="center" style="font-family:arial,sans-serif;font-size:11px;line-height:18px;color:#88898c;padding-bottom:6px"> <span><a style="color:#88898c;text-decoration:none;font-weight:bold;line-height:27px;" href="http://www.unidadgenetica.com/aviso-de-privacidad/" target="_blank">Aviso de Privacidad</a><br>
+                  Recibiste este mensaje debido a que solicitaste estudios genéticos con nosotros. <br>
+                  Si no quieres recibir estos correos de Unidad de Genética Aplicada en el futuro, puedes <br>
+                  solicitar darte de baja al siguiente correo:  <a style="color:#88898c;text-decoration:underline;font-weight:bold" href="mailto:contacto@unidadgenetica.com" target="_blank">contacto@unidadgenetica.com</a>.</span><br>
+                  © 2017 <a href="http://www.unidadgenetica.com" style="color:#88898c;text-decoration:none;line-height:30px;" target="_blank">Unidad de Genética Aplicada</a>
+                    </td>
+              </tr>
+              <tr>
+                <td bgcolor="#f2f2f2">&nbsp;</td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>';
         mail( $to, $subject, $body, $headers );
-        
-        $_SESSION['alert']="Usuario registrado con éxito";
-     
-
     }
 
     else {

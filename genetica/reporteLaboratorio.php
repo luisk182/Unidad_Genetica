@@ -3,19 +3,17 @@
 session_start();
 if ($_SESSION['perfil']!=1) 
 	{
-	echo "No tiene suficiente permisos";die;
-	//header("location: ../error.php");   
-	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+		echo "<script> window.location = '../error-login.php'</script>";
 	}
 else {
- 
-   
-   $nombre = $_SESSION['nombre'];
-   $apellido = $_SESSION['apellido'];
-   $email = $_SESSION['email'];
-   $activo = $_SESSION['activo'];
+
+	$name = $_SESSION['nombre'];
+	$apellido = $_SESSION['apellido'];
+	$email = $_SESSION['email'];
+	$activo = $_SESSION['activo'];
 	$perfil=$_SESSION['perfil'];
 	$idusuario= $_SESSION['IdUsuario'];
+	$lab= $_SESSION['laboratorio'];
 }
 ?>
 <html>
@@ -78,15 +76,14 @@ else {
 
     </script>    
 
-    
     </head>
-    
-    
+
     <body class="dt-example">
-    <nav class="top-bar" role="navigation">
-        <?php include('menu_pac.php'); ?>
-    </nav>
+		<nav class="top-bar" role="navigation">
+			<?php include('menu_pac.php'); ?>
+		</nav>
 	<div class="row">
+
 		<div class="medium-12 columns"
 		<section>
 			<h1>Reporte </h1>
@@ -99,7 +96,6 @@ else {
 						<th>Nombre de estudio</th>
 						<th>Fecha Estudio</th>
 						<th>Archivo</th>
-                       
 					</tr>
 				</thead>
                 <tbody>

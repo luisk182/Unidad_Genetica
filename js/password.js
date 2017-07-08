@@ -57,7 +57,7 @@
             
             if ($.inArray('#', dataSet) >= 0) {
 
-                possible += '![]{}()%&*$#^<>~@|';
+                possible += '%*$#';
 
             }
             

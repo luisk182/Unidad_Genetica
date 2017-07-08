@@ -20,7 +20,7 @@ session_destroy();
                     <h3>¡Adiós!</h3>
                         <p><?= 'Has cerrado sesión corretamente.'; ?></p>
           
-                    <a href="../../wp/index.php">
+                    <a href="../index.php">
                         <button class="button expand small">
                             Ir al inicio
                         </button>

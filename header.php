@@ -3,8 +3,8 @@
 
     <!--foundation -->
     <link rel="stylesheet" href="fonts/foundation-icons.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-   <!--<link rel="stylesheet" href="css/foundation.min.css">-->
+ <link rel="stylesheet" href="css/foundation.css">
+   
 
     <!-- Scripts js -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>

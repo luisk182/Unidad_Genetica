@@ -4,18 +4,14 @@ session_start();
 
 if ($_SESSION['perfil']!=4) 
 	{
-	echo "No tiene suficiente permisos";die;
-	//header("location: ../error.php");   
-	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+		echo "<script> window.location = '../error-login.php'</script>";
+		//header('Location:../error.php');
 	}
 else {
- 
-   
-   $nombre = $_SESSION['nombre'];
-   $apellido = $_SESSION['apellido'];
-   $email = $_SESSION['email'];
-   $activo = $_SESSION['activo'];
-	
+	$name = $_SESSION['nombre'];
+	$apellido = $_SESSION['apellido'];
+	$email = $_SESSION['email'];
+	$activo = $_SESSION['activo'];
 	$perfil=$_SESSION['perfil'];
 	$idusuario= $_SESSION['IdUsuario'];
 }
@@ -23,56 +19,74 @@ else {
 <html>
 
 <head>
+<title>Reporte administrador </title>
 	<?php   include('header_in.php');
-            include ('dtheader.php');
-			
+            include ('dtheader.php');	
     ?>
-
-	    <script type="text/javascript" language="javascript" class="init">
+	<script type="text/javascript" language="javascript" class="init">
           var editor;
+		  var fl = new Date();
+		  
+		 // var hoy= dia.getDate();
             $(document).ready(function(){
                 editor= new $.fn.dataTable.Editor({       
                     ajax:"scripts/r_admin.php",
                     table:"#reporte",  
                     fields:[{
-                        label:"Fecha Estudio",
+                        label:"Fecha recepción",
                         name:"altaestudios.FechaEstudio",
                         type:"datetime",
                         opts:{
                             maxDate: new Date()
                         }
                 }, 
+					{
+						label:"Fecha entrega",
+						name:"altaestudios.FechaEntrega",
+						type:"datetime",
+						opts:{
+							minDate: new Date(fl.getDay()),
+							maxDate: new Date()
+						
+						}
+				},
                     {
-                        label:"Usuario",
-                        name:"altaestudios.IdUsuario", //Select llenado dinamicamente del left join
-                        type:"autoComplete",
-                        placeholder:"Elija usuario"
+                        label:"Paciente",
+                        name:"altaestudios.IdUsuario", //Select llenado dinamicamente
+                        type:"select",
+                        placeholder:"Seleccione Paciente"
                 },
 					{
-						label:"Medico",
-                        name:"altaestudios.IdMedico", //Select llenado dinamicamente del left join
-                        type:"autoComplete",
-                        placeholder:"Elija usuario"
+						label:"Médico",
+                        name:"altaestudios.IdMedico", //Select llenado dinamicamente
+                        type:"select",
+                        placeholder:"Sin especificar"
 				},
                     {
                         label:"Laboratorio",
                         name:"altaestudios.IdLaboratorio",
                         type:"select",
-                        placeholder:"Seleccione un laboratorio"      
+						placeholder:"Unidad de genetica aplicada"
+                        
                 },
+				
+				
                     {
-                        label:"Activo",
+                        label:"Restringido",
                         name:"altaestudios.activo",
                         type:"radio",
                         options:[
-                            { label:"Activo",    value:1 },
-                            { label:"Inactivo",  value:0 } 
+							{ label:"No (El paciente podrá ver el estudio)",    value:0 },
+							{ label:"Si (El paciente no podrá ver el estudio)",  value:1 } 
+                            
+                            
                         ]
                 },
                     {
                         label:"Tipo estudio",
                         name:"altaestudios.IdTipoEstudio",
-                        type:"select"     
+                        type:"select",
+						placeholder:"Seleccione un estudio"						
                 }, 
                     {
                         label:"Archivo",
@@ -84,9 +98,7 @@ else {
 							dragDropText:"Arrastra y suelta un archivo",
 							uploadText:"Seleccionar archivo...",
 							fileReadText:"Cargando",
-							noFileText:"No hay archivo"
-							
-							
+							noFileText:"No hay archivo"	
                 }        
                     ],
 					i18n: {
@@ -95,11 +107,10 @@ else {
 							remove:{
 								submit:"Borrar",
 								confirm:{
-									_: "¿Estas seguro que deseas borrar %d registros?",
-									1: "¿Estas seguro que deseas borrar 1 registro?"
+									_: "¿Estás seguro que deseas borrar %d registros?",
+									1: "¿Estás seguro que deseas borrar 1 registro?"
 								}
 							}
-							
 					}							
             });
             
@@ -119,23 +130,38 @@ else {
                 initComplete: function (settings, json){
                             table.buttons().container()
                             .appendTo( $('.small-6.columns:eq(0)', table.table().container() ) );
-                
                 },
                 
                 ajax:"scripts/r_admin.php",
                 columns:[
                     {data:"tipoestudio.ClaveEstudio"},
-                    {data:"usuario",
+                    {data:"paciente",
                         render: function (data, type, row){
-                            return data.nombre+' '+data.apellido;
-                            
-                        }    
+							if (data.nombre==null){
+								return 'Paciente no existe';
+							}
+							else{
+								return data.nombre+' '+data.apellido;   
+							}
+                        }						
                     },
+					{data:"medico",
+                        render: function (data, type, row){
+								if (data.nombre==null){
+								return 'Sin especificar';
+							}
+							else{
+								return data.nombre+' '+data.apellido;   
+							}
+                         
+                        }					
+					},
                     {data:"altaestudios.FechaEstudio"},
+                    {data:"altaestudios.FechaEntrega"},
                     {data:"laboratorio.NombreLaboratorio"},
                     {data:"altaestudios.activo",
                         render: function(data){
-                            return data==1? 'Activo' : 'Inactivo';
+                            return data==1? 'Si' : 'No';
                         }
                     },
                     {data:"altaestudios.archivo",
@@ -145,7 +171,9 @@ else {
                                'No hay archivos';
                             }
                     },
-					{data:"altaestudios.IdMedico"}
+					
+					
+					
                 ],
                 select:true
                    
@@ -169,14 +197,15 @@ else {
                     editor: editor,
                     formTitle:"¿Estás seguro que deseas borrarlo?"
                 },
-                {
-                    extend:"copy",
-                    text:"Copiar"
-                },
-
+                  
+				{
+				text: 'Exportar Excel',
+                extend: 'excel'
+               
+            }
+               
             ] );
      } );
-
     </script>    
     </head>
 	
@@ -184,37 +213,34 @@ else {
     <div class="top-bar">
         <?php include('menu.php'); ?>
     </div>
-        <div class="row">
-	<div class="medium-11 medium-centered columns">
-		<section>
-			<h1>Reporte administrador</h1>
-            
-			<table id="reporte" class="display" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-                        <th>Estudio</th>
-						<th>Nombre</th>
-                        <th>Fecha Estudio</th>
-						<th>Laboratorio</th>
-                        <th>Estatus</th>
-                        <th>Archivo</th>
-						<th>Médico</th>
-					</tr>
-				</thead>
-			
-			</table>
-
-		</section>
+    <div class="row">
+		<div class="medium-12  columns">
+			<section>
+				<h1>Alta estudios</h1>
+				
+				<table id="reporte" class="display" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Estudio</th>
+							<th>Paciente</th>
+							<th>Médico</th>
+							<th>Fecha recepción</th>
+							<th>Fecha entrega</th>
+							<th>Laboratorio</th>
+							<th>Restricción</th>
+							<th>Archivo</th>
+							
+						</tr>
+					</thead>
+				</table>
+			</section>
+		</div>
 	</div>
-            </div>
-			
-			
+	
 </body>
 	<script type="text/javascript">
-				
-					$(document).foundation();
-	
-				</script>
+		$(document).foundation();
+	</script>
     
 </html>
 

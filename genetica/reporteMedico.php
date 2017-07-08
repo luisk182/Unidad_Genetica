@@ -4,19 +4,17 @@ session_start();
 
 if ($_SESSION['perfil']!=2) 
 	{
-	echo "No tiene suficiente permisos";die;
-	//header("location: ../error.php");   
-	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+		echo "<script> window.location = '../error-login.php'</script>";
 	}
 else {
  
    
-   $nombre = $_SESSION['nombre'];
-   $apellido = $_SESSION['apellido'];
-   $email = $_SESSION['email'];
-   $activo = $_SESSION['activo'];
-	$perfil=$_SESSION['perfil'];
-	$idusuario= $_SESSION['IdUsuario'];
+	   $name = $_SESSION['nombre'];
+	   $apellido = $_SESSION['apellido'];
+	   $email = $_SESSION['email'];
+	   $activo = $_SESSION['activo'];
+	   $perfil=$_SESSION['perfil'];
+	   $idusuario= $_SESSION['IdUsuario'];
 }
 ?>
 <html>
@@ -35,7 +33,7 @@ else {
                     table:"#paciente",  
                     fields:[] 
             });
-           $("#paciente").DataTable({
+           $("#medico").DataTable({
                 "language":{
                     "url": "./lenguaje/spanish.json",
 					"select":{
@@ -52,7 +50,7 @@ else {
                 
                 },
             
-                ajax:"scripts/r_Laboratorio.php",
+                ajax:"scripts/r_Medico.php",
                 columns:[
 				 {data: "usuario",
                         render: function(data, type, row)
@@ -94,7 +92,7 @@ else {
 			<h1>Reporte Médico</h1>
 			
 			<div class="demo-html"></div>
-			<table id="paciente" class="display" cellspacing="0" width="100%">
+			<table id="medico" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th>Nombre Paciente</th>

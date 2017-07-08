@@ -8,7 +8,7 @@
            
             <ul class="right">
                 <li class="has-dropdown not-click">
-                    <a href="#"><i class="fi-torso"></i> <?php echo $nombre ?> </a>
+                    <a href="#"><i class="fi-torso"></i> <?php echo $name ?> </a>
                     <ul class="dropdown">
                         <li><a href="profile.php">Perfil</a></li>
                         <li><a href="../logout.php">Salir</a></li>

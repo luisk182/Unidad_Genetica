@@ -1,4 +1,7 @@
-       <ul class="title-area">
+
+
+
+	<ul class="title-area">
                 <li class="name">
                     <h1><a href="#"></a></h1>
                 </li>
@@ -8,7 +11,7 @@
            
             <ul class="right">
                 <li class="has-dropdown not-click">
-                    <a href="#"><i class="fi-torso"></i> <?php echo $nombre;?> </a>
+                    <a href="#"><i class="fi-torso"></i> <?php echo $name;?> </a>
                     <ul class="dropdown">
                         <li><a href="profile.php">Perfil</a></li>
                         <li><a href="../logout.php">Salir</a></li>
@@ -19,7 +22,7 @@
 				<li><a href="reporteAdmin.php">Reporte</a></li>
   
                 <li class="has-dropdown not-click">              
-                    <a href="#">Agregar</a>
+                    <a href="#">Alta</a>
                         <ul class="dropdown">
                             <li><a href="registrousuario.php">Usuarios</a></li>
                             <li><a href="altaLaboratorio.php">Laboratorio</a></li>
@@ -28,6 +31,6 @@
                 </li>
             </ul>
 
-          </section>
+          </section> 
 		  
 		  

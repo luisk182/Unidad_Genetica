@@ -3,6 +3,7 @@
 /*
  * Example PHP implementation used for the index.html example
  */
+session_start();
 
 // DataTables PHP library
 include( "../../php/DataTables.php" );
@@ -20,7 +21,7 @@ use
 $db->sql( "SET NAMES 'utf8'" );
 // Libreria para captura, lectura y edicion de datos
 Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
-   
+   ->debug(true)
 	->fields(
     
         Field::inst('altaestudios.FechaEstudio')
@@ -39,12 +40,15 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
         Field::inst('altaestudios.archivo'),
                 Field::inst('archivo.web_path'),
     
-
+		Field::inst('altaestudios.IdLaboratorio'),
           Field::inst('altaestudios.IdTipoEstudio'),
-                Field::inst('tipoestudio.NombreEstudio')     
+                Field::inst('tipoestudio.NombreEstudio')
+				
+			/*  Field::inst( 'altaestudios.userid' )
+				->setValue($_SESSION['laboratorio'])	 */			
 
     )
-   
+	->where('altaestudios.IdLaboratorio',$_SESSION['laboratorio'])
     ->leftJoin('tipoestudio', 'altaestudios.IdTipoEstudio', '=', 'tipoestudio.IdTipoEstudio')
     ->leftJoin('archivo', 'altaestudios.archivo', '=', 'archivo.IdArchivo')
     ->leftJoin('usuario', 'altaestudios.IdUsuario', '=', 'usuario.IdUsuario')

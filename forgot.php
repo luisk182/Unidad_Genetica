@@ -11,7 +11,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
     if ( $result->num_rows == 0 ) // User doesn't exist
     { 
-        $_SESSION['message'] = "Ese usuario no exist";
+        $_SESSION['message'] = "Ese usuario no existe";
         header("location: error.php");
     }
     else { // User exists (num_rows != 0)
@@ -36,7 +36,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
        Haz click en el siguiente enlace para resetear tu contraseña
 
-      http://unidadgenetica.com/wp/SistemaUG/reset.php?email='.$email.'&hash='.$hash;
+      http://unidadgenetica.com/SistemaUG/reset.php?email='.$email.'&hash='.$hash;
 
         mail($to, $subject, $body);
 

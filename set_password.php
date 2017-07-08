@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // We get $_POST['email'] and $_POST['hash'] from the hidden input field of reset.php form
         $email = $mysqli->escape_string($_POST['email']);
         $hash = $mysqli->escape_string($_POST['hash']);
-        
-        $sql = "UPDATE usuario SET password='$new_password', hash='$hash' WHERE email='$email'";
+        $activar= 1;
+        $sql = "UPDATE usuario SET password='$new_password', hash='$hash', activo='$activar' WHERE email='$email'";
 
         if ( $mysqli->query($sql) ) {
 

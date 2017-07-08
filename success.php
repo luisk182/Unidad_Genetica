@@ -5,16 +5,14 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Success</title>
+  <title>Listo</title>
   <?php include('header.php'); ?>
 </head>
 <body>
 
-   
-   
     <div class="row">
-            <div class="medium-4 medium-centered text-center">
-                <div class="log-out">
+            <div class="medium-4 medium-centered small-8 small-centered columns">
+                <div class="log-out text-center">
                    <h3>Listo</h3>
                          <?php 
 						if( isset($_SESSION['message']) AND !empty($_SESSION['message']) ):
@@ -24,11 +22,15 @@ session_start();
 						endif;
 						?>
 						
-                    <a href="index.php">
-                        <button class="button expand small">
-                            Ir al inicio
+                      <button class="button expand small" onclick="redirect();">
+							Volver
                         </button>
-                    </a>
+				<script>
+					function redirect(){
+						
+						window.parent.location = '../resultados';
+					}
+				</script>
                 </div>
             </div>
 		</div>

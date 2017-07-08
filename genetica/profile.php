@@ -1,22 +1,64 @@
 <?php
-/* Displays user information and some useful messages */
 session_start();
-
-// Check if user is logged in using the session variable
 if ( $_SESSION['logged_in'] != 1 ) {
-  $_SESSION['message'] = "You must log in before viewing your profile page!";
+  $_SESSION['message'] = "Debes iniciar sesion";
   header("location: error.php");    
 }
 else {
     // Makes it easier to read
-    $nombre = $_SESSION['nombre'];
+    $name = $_SESSION['nombre'];
     $apellido = $_SESSION['apellido'];
     $email = $_SESSION['email'];
     $activo = $_SESSION['activo'];
 	$perfil = $_SESSION['perfil'];
+	$emailshow= $_SESSION['email'];
+	
+	
 	
 }
 ?>
+<?php	
+		// Check if form submitted with method="post"
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) 
+{   
+	require '../conexion.php';
+    $email = $_SESSION['email'];
+    $result = $mysqli->query("SELECT * FROM usuario WHERE email='$email'");
+
+    if ( $result->num_rows == 0 ) // User doesn't exist
+    { 
+        $_SESSION['message'] = "Ese usuario no exist";
+        header("location: ../error.php");
+    }
+    else { // User exists (num_rows != 0)
+
+        $user = $result->fetch_assoc(); // $user becomes array with user data
+        
+        
+        $hash = $user['hash'];
+        $nombre = $user['nombre'];
+
+      
+        $_SESSION['message'] = "<p>Se ha enviado un correo a: <span>$email</span>"
+        . " para confirmar tu cambio de contraseña</p>";
+
+        // Send registration confirmation link (reset.php)
+        $to      = $email;
+        $subject = 'Restablecer contraseña (Unidad Genética Aplicada)';
+        $body = '
+        Hola '.$nombre.',
+
+       Has solicitado cambio de contraseña
+
+       Haz click en el siguiente enlace para resetear tu contraseña
+
+      http://unidadgenetica.com/SistemaUG/reset.php?email='.$email.'&hash='.$hash;
+
+        mail($to, $subject, $body);
+	}
+}
+	?>
+	
 <!DOCTYPE html>
 <html >
 <head>
@@ -46,13 +88,25 @@ else {
     </nav>
  
   <div class="row">
-		<form method="post">
+		<form method="post" action="profile.php">
          <div class="medium-6 medium-offset-3 columns log-in-form">
              <div class="profile">
           <h4>Datos de usuario</h4>
           
           <p>
-          <?php   
+				<i class="fi fi-torso"></i> <?php echo $name.' '.$apellido; ?><br>
+				<i class="fi fi-mail"></i> <?= $emailshow; ?><br>
+				 <i class="fi fi-lock"></i><span id="pass"></span> <button class="tiny">Cambiar contraseña</button>
+		 </p>
+		
+		 <?php if($mensaje){
+			 echo $mensaje;
+		 }
+		 
+		 ?>
+	
+		 </form>
+               <?php   
           if ( isset($_SESSION['message']) )
           {
               echo $_SESSION['message'];
@@ -60,51 +114,6 @@ else {
           }
           
           ?>
-          </p>
-          <?php
-          
-          if ( !$activo ){
-              echo
-              '<div class="alert callout">
-              Tu cuenta aún no ha sido verificada. Verifica tu cuenta haciendo clic en el enlace de tu correo
-              </div>';
-          }
-          
-          ?>
-          
-          <p>
-				<i class="fi fi-torso"></i> <?php echo $nombre.' '.$apellido; ?><br>
-				<i class="fi fi-mail"></i> <?= $email; ?><br>
-				<i class="fi fi-telephone"></i> 939393 <br>
-				<i class="fi fi-lock"></i> <input type="password" id="nuevo">
-				<button class="button success tiny" id="boton">Aceptar </button>
-				<span id="pass">* * * * * * * * * * * * *  </span><a href="#" id="cambiar">Modificar</a>
-				
-		 </p>
-		 <script>
-		 $(document).ready(function(){
-			$("#nuevo").hide();
-			$("#boton").hide();
-			$("#cambiar").click(function(){
-				if($(this).text()=="Modificar"){
-					$(this).text("Cancelar");
-					$("#pass").text("");
-				}
-				else{
-					
-					$(this).text("Modificar");
-					$("#pass").text("* * * * * * * * * * * * *  ");
-				}
-				$("#nuevo").toggle();
-				$("#boton").toggle();
-				
-				
-				
-			});
-			
-			});
-		 </script>
-		 </form>
           
         
         </div>

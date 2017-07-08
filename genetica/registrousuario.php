@@ -5,16 +5,23 @@ session_start();
 
 if ($_SESSION['perfil']!=4) 
 	{
-	echo "No tiene suficiente hólá ñoño";die;
+echo "<script> window.location = '../error-login.php'</script>";
 	
 	}
 else {
  
-   
-   $nombre = $_SESSION['nombre'];
-   $apellido = $_SESSION['apellido'];
-   $email = $_SESSION['email'];
-   $activo = $_SESSION['activo'];
+	
+	 require '../conexion.php';
+	
+	 $query="SELECT * from laboratorio;";
+	 $listalabs=mysqli_query($mysqli,$query) or die;
+		$resultado= mysqli_fetch_array($listalabs);	
+		//var_dump($resultado); die;
+
+	   $name = $_SESSION['nombre'];
+	   $apellido = $_SESSION['apellido'];
+	   $email = $_SESSION['email'];
+	   $activo = $_SESSION['activo'];
 
 }
 ?>
@@ -23,17 +30,14 @@ else {
 <head>
     <meta charset="utf-8">
 
-	<title>Unidad Génetica reportes</title>
+	<title>Usuarios</title>
 <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Unidad Genética</title>
+   
     <?php 
     include('header_in.php');
     include ('dtheader.php');
 	
-    require '../conexion.php';
-    session_start();
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') 
         {
             if (isset($_POST['register'])) { 
@@ -44,6 +48,7 @@ else {
         }
     ?>
 	<script type="text/javascript" src="../js/password.js"></script>
+
      <script type="text/javascript" language="javascript" class="init">
           var editor;
             $(document).ready(function(){
@@ -72,6 +77,7 @@ else {
                         name:"usuario.password",
                         type:'password'
                 },
+				
                     {
                         label:"Perfil",
                         name:"usuario.perfil",
@@ -83,6 +89,12 @@ else {
                             { label: "Paciente",        value:"3"  }
                         ]     
                 },
+					{
+						label:"Laboratorio",
+						type:"select",
+						name:"usuario.laboratorio",
+						placeholder:"Seleccione Laboratorio"
+				},
                     {
                         label:"Estatus",
                         name:"usuario.activo",
@@ -91,7 +103,22 @@ else {
                             { label:"Inactivo", value:0 },
                             { label:"Activo",   value:1}
                         ]
-                }
+                },
+				{
+						label:"Reenvio de correo",
+						type:"checkbox",
+						name:"usuario.sent",
+						   options: [
+							{ label: "Enviar", value: 'si'}
+							],
+						separator: '',
+						unselectedValue: 'no'
+				},
+				{
+						label:"hash",
+						name:"usuario.hash",
+						type:"hidden"
+				}
                 ],
 					i18n: {
 							edit: {submit: "Guardar"},
@@ -99,12 +126,18 @@ else {
 							remove:{
 								submit:"Borrar",
 								confirm:{
-									_: "¿Estas seguro que deseas borrar %d lineas?",
-									1: "¿Estas seguro que deseas borrar 1 línea?"
+									_: "¿Estás seguro que deseas borrar %d lineas?",
+									1: "¿Estás seguro que deseas borrar 1 línea?"
 								}
 						}	
 					}						
             });
+			editor.dependent( 'usuario.perfil', function ( val ) {
+				return val == 1 ?
+			{ show: ['usuario.laboratorio'] } :
+            { hide: ['usuario.laboratorio'] };
+          
+			} );
             
          var table= $("#usuarios").DataTable({
                 lengthChange: false, 
@@ -131,15 +164,20 @@ else {
                             return data.usuario.nombre+' '+data.usuario.apellido;
                         }
                     },
-    
+					
                     {data:"usuario.email"},
                     {data:"usuario.telefono"},
+					
                     {data:"perfil.NombrePerfil"},
+					{data:"laboratorio.NombreLaboratorio"},
                     {data:"usuario.activo",
 						 render: function(data){
 							return data==1? 'Activo' : 'Inactivo';  
                         }
-					}
+					},
+					{data:"usuario.hash", "visible":false}
+				
+					
                 ],
                 select:true
            } );
@@ -156,10 +194,11 @@ else {
                     editor: editor,
                     formTitle:"¿Estás seguro que deseas borrarlo?"
                 },
-                {
-                    extend:"copy",
-                    text:"Copiar"
-                },
+               
+				{
+				text: 'Exportar Excel',
+                extend: 'excel'
+            }
 
             ] );
             } );
@@ -177,32 +216,49 @@ else {
     <div class="row">
 	<h2>Alta de usuarios</h2>
 		<div id="signup">   
-			<form action="registrousuario.php" method="post" autocomplete="off">
+			<form action="registrousuario.php" method="post" autocomplete="off" id="miform">
 					<div class="row">
 					
-						<div class="medium-4 columns">
-						  <label>
-								Nombre(s)<span class="req">*</span>
-						  </label>
-						  <input type="text" required autocomplete="off" name='nombre'/>
-						</div>
-        
-						<div class="medium-4 columns">
+						<div class="medium-6 columns">
 						  <label>
 							Apellido<span class="req">*</span>
 						  </label>
 						  <input type="text"required autocomplete="off" name='apellido' />
+						 
 						</div>
-						<div class="medium-4 columns">
+        
+						<div class="medium-6 columns">
+						 <label>
+								Nombre(s)<span class="req">*</span>
+						  </label>
+						  <input type="text" required autocomplete="off" name='nombre'/>
+						</div>
+				</div>
+				
+				<div class="row">
+			
+				<div class="medium-4 columns">
+				<div class="row collapse">
+				<div class="merge">
 							<label>
-								  Correo electronico<span class="req">*</span>
+								  Correo electrónico<span class="req">*</span>
+							<span class="text-right">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							Enviar</span>
 							</label>
+							<div class="medium-9 columns">
 								<input type="email"required autocomplete="off" name='email' />
+							</div>
+							<div class="medium-3 columns">
+							
+							<div class="switch">
+									  <input type="checkbox" name="enviar" id="miswitch" value="si">
+									  <label for="miswitch"></label>
+							</div> 
 						</div>
 					</div>
-				
-			
-				<div class="row">
+				</div>
+				</div>
 						<div class="medium-4 columns">
 							<div class="row collapse">
 								<label>
@@ -219,36 +275,53 @@ else {
 								</div>
 							</div>
 						</div>
-						
 						<div class="medium-4 columns">
+							<label>
+								  Teléfono<span class="req">*</span>
+								</label>
+								<input type="text" required autocomplete="off" name="telefono">
+						</div>
+				</div>
+		
+			
+			<div class="row">
+				<div class="medium-4 columns">
 								<label>
 								  Perfil<span class="req">*</span>
 								</label>
-								<select name="perfil">
-									<option value="1">Laboratorista</option>
+								<select name="perfil" id="perfil">
 									<option value="2">Médico</option>
+									<option value="1">Laboratorista</option>
 									<option value="3">Paciente</option>
 									<option value="4">Admin</option>
 								</select>
-						</div>
-						<div class="medium-4 columns">
-								<label>
-								  Teléfono<span class="req">*</span>
-								</label>
-								<input type="number"required autocomplete="off" name="telefono">
-								
-						</div>
-						</div> <!-- ./row -->
-				<div class="row">
-				<div class="medium-4 columns">
-					<button type="submit" class="button small expand" name="register">Registrar</button>
 				</div>
 				<div class="medium-4 columns">
+					<label id="span-lab">
+						 Laboratorio<span class="req">*</span>
+					</label>				
+					<select name="laboratorio" id="lab">		
+						<option value="0"> Seleccione laboratorio.. </option>
+						<?php
+						while($rows = mysqli_fetch_array($listalabs)){
+							echo "<option value=".$rows['IdLaboratorio'].">".$rows['NombreLaboratorio']."</option>";
+							}			
+						?>			
+					</select>
+					</div>
+						<div class="medium-4 columns">
+							<button type="submit" class="button small" name="register" style="margin-top:15px; width:100%;">Registrar</button>
+						</div>
+			
+			</div>
+			<div class="row">
+	
+			<div class="medium-4 columns">
 				<?php if($mensaje){ echo '<div data-alert class="alert-box success" tabindex="0" aria-live="assertive" role="alertdialog">'.$mensaje.'<button tabindex="0" class="close" aria-label="Close Alert">&times;</button>
 				</div>';}  ?>
 				</div>
-							
-						</div>
+			</div>
+			
 
 			</form>		
           </div>
@@ -267,8 +340,10 @@ else {
 						<th>Correo</th>
                         <th>Teléfono</th>
 						<th>Perfil</th>
+						<th>Laboratorio</th>
                         <th>Estatus</th>
-            
+						<th></th>
+					
 					</tr>
 				</thead>
 			
@@ -286,6 +361,38 @@ else {
 		
 		});
 	</script>
+	<script>
+		$(document).ready(function(){
+			$("#lab").hide();
+			$("#span-lab").hide();
+			$("#perfil").on('change', function(){
+				if($(this).val()==1)
+				{
+					$("#span-lab").show();
+					$("#lab").val('0');
+					$("#lab").show();
+					
+					
+				}
+				else{
+					$("#lab").val('0');
+					$("#lab").hide();
+					$("#span-lab").hide();
+				}
+				
+			});
+		
+			
+			
+		});
+		function alerts(){
+							alert("Correo enviado");
+							console.log("correo enviado a:");
+				
+						}	
+		
+	</script>
+	
     
     
     </body>

@@ -11,7 +11,7 @@ if ($_SESSION['perfil']!=4)
 else {
  
    
-   $nombre = $_SESSION['nombre'];
+   $name = $_SESSION['nombre'];
    $apellido = $_SESSION['apellido'];
    $email = $_SESSION['email'];
    $activo = $_SESSION['activo'];
@@ -22,7 +22,7 @@ else {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-	<title>Unidad Genética - Alta usuarios </title>
+	<title>Unidad Genética - Laboratorios</title>
     <?php   include('header_in.php');
             include ('dtheader.php');
     ?>
@@ -95,10 +95,10 @@ else {
                     editor: editor,
                     formTitle:"¿Estás seguro que deseas borrarlo?"
                 },
-                {
-                    extend:"copy",
-                    text:"Copiar"
-                },
+				{
+				text: 'Exportar Excel',
+                extend: 'excel'
+            }
 
             ] );
         });
@@ -116,7 +116,7 @@ else {
 		<section>
 		
             <div class="row">
-                 <div class="small-10 small-offset-1 columns">
+                 <div class="small-12 columns">
                     <h1>Alta Laboratorio</h1>
 			         <table id="laboratorio" class="display" cellspacing="0" width="100%">
                         <thead>

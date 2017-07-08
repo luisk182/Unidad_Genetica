@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <?php
-
 session_start();
 if ($_SESSION['perfil']!=3) 
 	{
-	echo "No tiene suficiente permisos";die;
-	//header("location: ../error.php");   
-	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
+		echo "<script> window.location = '../error-login.php'</script>";
+
 	}
 else {
-   $nombre = $_SESSION['nombre'];
+	require '../conexion.php';
+   $name = $_SESSION['nombre'];
    $apellido = $_SESSION['apellido'];
    $email = $_SESSION['email'];
    $activo = $_SESSION['activo'];
 	$perfil=$_SESSION['perfil'];
 	$idusuario= $_SESSION['IdUsuario'];
-	
-	//print_r($idusuario); die;
+	$result = $mysqli->query("SELECT activo FROM altaestudios WHERE IdUsuario='$idusuario'");
+	$user = $result->fetch_assoc();
 }
 ?>
 <html>
@@ -61,12 +60,17 @@ else {
                     {data:"altaestudios.FechaEstudio"},
                     {data:"altaestudios.activo",
                     render: function(data){
-                     return data==1? 'Activo' : 'Inactivo';  
+                     return data==1? 'Inactivo' : 'Activo';  
                         }
                     },
                     {data:"archivo.web_path",
                         render: function(data){
-                            return '<a href="'+data+'" download><i class="fi-download"></i> Archivo</a>' +' / '+ '<a href="'+data+'" target="_blank"><i class="fi-eye"></i> Ver</a>';
+							if($("#status").text() == 0){
+                            return '<a href="'+data+'" download><i class="fi-download"></i> Archivo</a>' +' / '+ '<a href="'+data+'" target="_blank"><i class="fi-eye"></i> Ver</a>';}
+							else
+							{
+							return '<a href="#" onclick="alertas()"><i class="fi-download"></i> Archivo</a>' +' / '+ '<a href="#" onclick="alertas()"><i class="fi-eye"></i> Ver</a>';
+							}
                         }
                     }		
                     
@@ -78,12 +82,8 @@ else {
             
      });
 
-    </script>    
-
-    
+    </script>
     </head>
-    
-    
     <body class="dt-example">
     <nav class="top-bar" data-topbar role="navigation">
         <?php include('menu_pac.php'); ?>
@@ -93,6 +93,9 @@ else {
 	<div class="medium-12 columns">
 		
 			<h1>Resultados</h1>
+			<span id="status" style="visibility:hidden;"><?php 
+				echo $user['activo'];
+			?></span>
 			
 			<div class="demo-html"></div>
 			<table id="paciente" class="display" cellspacing="0" width="100%">
@@ -102,19 +105,23 @@ else {
 						<th>Fecha Estudio</th>
                         <th>Estatus</th>
 						<th>Archivo</th>
-                       
 					</tr>
 				</thead>
-                <tbody>
-             
-                    
+                <tbody>				
                 </tbody>
 			
 			</table>
 		
 		</div>
 	</div>
-	
+		<script type="text/javascript">
+			function alertas(){
+				alert("Para ver este resultado, consulta a tu médico");
+				
+			}	
+			
+			
+		</script>
 </body>
     
 </html>

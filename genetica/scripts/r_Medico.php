@@ -5,7 +5,7 @@
 
 // DataTables PHP library
 include( "../../php/DataTables.php" );
-
+session_start();
 
 use
 	DataTables\Editor,
@@ -38,15 +38,18 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios')
 
           Field::inst('altaestudios.IdTipoEstudio'),
                 Field::inst('tipoestudio.NombreEstudio'),
-		Field::inst('altaestudios.activo')
-
+		Field::inst('altaestudios.activo'),
+		
+		Field::inst( 'altaestudios.userid' )
+			->setValue($_SESSION['IdUsuario'])
+		
 	
     )
-   
+	->where('altaestudios.IdMedico',$_SESSION['IdUsuario'])
     ->leftJoin('tipoestudio', 'altaestudios.IdTipoEstudio', '=', 'tipoestudio.IdTipoEstudio')
     ->leftJoin('archivo', 'altaestudios.archivo', '=', 'archivo.IdArchivo')
     ->leftJoin('usuario', 'altaestudios.IdUsuario', '=', 'usuario.IdUsuario')
     // Reemplazar por la variable de sesion hardcodeada
-	->where('altaestudios.IdMedico',10)
+	
 	->process( $_POST )
 	->json();
