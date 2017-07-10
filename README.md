@@ -22,9 +22,9 @@ Pendiente.
 
 ## Documentación 
 
-### Configuración Datatables 
+### Configuración de conexión datatables 
 
-```../php/config.php```
+```/php/config.php```
 
 ```php
 $sql_details = array(
@@ -37,4 +37,40 @@ $sql_details = array(
 	"dsn"  => ""                  // Charset utf-8
 );
 ```
+### Reportes
+
+Pantallas y formularios
+
+```
+/genetica/altaEstudio.php
+/genetica/altaLaboratorio.php
+/genetica/altaUsuarios.php
+/genetica/reporteAdmin.php
+/genetica/reportePaciente.php
+/genetica/reporteMedico.php
+```
+
+Procesamiento de datos 
+### Scripts 
+
+```
+/genetica/scripts/r_admin.php
+/genetica/scripts/r_Estudios.php
+/genetica/scripts/r_Laboratorio.php
+/genetica/scripts/r_Medico.php
+/genetica/scripts/r_Paciente.php
+/genetica/scripts/altaUsuario.php
+```
+
+### Relación de reportes
+
+```
+ /genetica/reporteAdmin.php     -> /genetica/scripts/r_admin.php
+ /genetica/altaLaboratorio.php  -> /genetica/scripts/r_Laboratorio.php
+ /genetica/altaUsuarios.php     -> /genetica/scripts/altaUsuario.php
+ /genetica/reportePaciente.php  -> /genetica/scripts/r_Paciente.php
+ /genetica/reporteMedico.php    -> /genetica/scripts/r_Medico.php
+```
+
+
 
