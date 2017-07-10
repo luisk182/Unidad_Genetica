@@ -73,25 +73,13 @@ Pantallas y formularios
  /genetica/reporteMedico.php    -> /genetica/scripts/r_Medico.php
 ```
 
-## Reporte administrador
 
-### Campos
-
-Fecha recepción 
-tipo:Date
-
-```javascript
-    fields:[{
-        label:"Fecha recepción",
-        name:"altaestudios.FechaEstudio",
-        type:"datetime",
-        opts:{
-            maxDate: new Date()
-         }
-    }
-                ]
-```
-
+## Reportes
+- <a href="reporteadmin.md">Reporte administrador</a>
+- <a href="reportelaboratorio.md">Reporte laboratorio</a>
+- <a href="reportemedico.md">Reporte médico</a>
+- <a href="reportepaciente">Reporte paciente</a>
+- <a href="registrousuario.md">Registro usuario</a>
 
 
 
