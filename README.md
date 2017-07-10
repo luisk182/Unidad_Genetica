@@ -50,7 +50,7 @@ Pantallas y formularios
 /genetica/reporteMedico.php
 ```
 
-Procesamiento de datos 
+
 ### Scripts 
 
 ```
@@ -60,9 +60,10 @@ Procesamiento de datos
 /genetica/scripts/r_Medico.php
 /genetica/scripts/r_Paciente.php
 /genetica/scripts/altaUsuario.php
+/genetica/scripts/registrousuario.php
 ```
 
-### Relación de reportes
+### Relación
 
 ```
  /genetica/reporteAdmin.php     -> /genetica/scripts/r_admin.php
@@ -71,6 +72,27 @@ Procesamiento de datos
  /genetica/reportePaciente.php  -> /genetica/scripts/r_Paciente.php
  /genetica/reporteMedico.php    -> /genetica/scripts/r_Medico.php
 ```
+
+## Reporte administrador
+
+### Campos
+
+Fecha recepción 
+tipo:Date
+
+```javascript
+    fields:[{
+        label:"Fecha recepción",
+        name:"altaestudios.FechaEstudio",
+        type:"datetime",
+        opts:{
+            maxDate: new Date()
+         }
+    }
+                ]
+```
+
+
 
 
 
