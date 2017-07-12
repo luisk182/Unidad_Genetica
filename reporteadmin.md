@@ -44,7 +44,8 @@ Fecha recepción
 Campo para seleccionar la fecha en que se recibió el estudio por parte de los laboratorios, donde solo pueda seleccionar hasta el dia actual o dias anteriores. <a href="https://editor.datatables.net/reference/field/date">Documentación</a>
 
 
-```javascript
+```js
+//JavaScript
         {
         label:"Fecha recepción",
         name:"altaestudios.FechaEstudio",
@@ -56,7 +57,7 @@ Campo para seleccionar la fecha en que se recibió el estudio por parte de los l
 ```
 
 ```php
-Serverside script
+//Serverside script
     Field::inst( 'altaestudios.FechaEstudio' )
         ->validator( 'Validate::dateFormat', array(
             "format"  => Format::DATE_ISO_8601,
@@ -69,7 +70,7 @@ Serverside script
 
 
 ```php
-Serverside script
+//Serverside script
  ->field(
         Field::inst( 'altaestudios.FechaEntrega' )
 			->validator( 'Validate::dateFormat', array(
@@ -84,6 +85,7 @@ Fecha entrega
 Campo donde se selecciona la fecha de entrega con permitiendo unicamente seleccionar el dia de hoy ```minDate``` fecha minima, 
 ```maxDate``` fecha máxima. <a href="https://editor.datatables.net/reference/field/date">Documentación</a>
 ```js
+//javascript
         {
                 label:"Fecha entrega",
                 name:"altaestudios.FechaEntrega",
@@ -98,7 +100,7 @@ Campo donde se selecciona la fecha de entrega con permitiendo unicamente selecci
 
 
 ```php
-Serverside script
+//Serverside script
         Field::inst( 'altaestudios.FechaEntrega' )
                 ->validator( 'Validate::dateFormat', array(
                     "format"  => Format::DATE_ISO_8601,
@@ -109,6 +111,8 @@ Serverside script
 
 Campo para seleccionar paciente.
 ```js
+//JavaScript
+
     {
             label:"Paciente",
             name:"altaestudios.IdUsuario", //Select llenado dinamicamente
@@ -120,7 +124,7 @@ Campo para seleccionar paciente.
 Consulta para el campo paciente donde ```perfil=3```  
 
 ```php
-Serverside script
+//Serverside script
 
  Field::inst( 'altaestudios.IdUsuario' )
             // se agregan las opciones del objeto que se va a llenar dinamicamente
@@ -140,8 +144,9 @@ Serverside script
 						"message" => "Seleccione un paciente"
 					) ),
 ```
-Campo para 
+Campo para seleccionar médico
 ```js
+//JavaScript
         {
                 label:"Médico",
                 name:"altaestudios.IdMedico", //Select llenado dinamicamente
