@@ -43,7 +43,7 @@ use
 Fecha recepción
 Campo para seleccionar la fecha en que se recibió el estudio por parte de los laboratorios, donde solo pueda seleccionar hasta el dia actual o dias anteriores. <a href="https://editor.datatables.net/reference/field/date">Documentación</a>
 
-JavaScript
+
 ```javascript
         {
         label:"Fecha recepción",
@@ -56,6 +56,7 @@ JavaScript
 ```
 
 ```php
+Serverside script
     Field::inst( 'altaestudios.FechaEstudio' )
         ->validator( 'Validate::dateFormat', array(
             "format"  => Format::DATE_ISO_8601,
@@ -66,8 +67,9 @@ JavaScript
 ```
 
 
-Server side script
+
 ```php
+Serverside script
  ->field(
         Field::inst( 'altaestudios.FechaEntrega' )
 			->validator( 'Validate::dateFormat', array(
@@ -79,7 +81,7 @@ Server side script
 ```
 
 Fecha entrega
-Campo donde se selecciona la fecha de entrega con permitiendo unicamente seleccionar el dia de hoy ```minDate``` fecha minima 
+Campo donde se selecciona la fecha de entrega con permitiendo unicamente seleccionar el dia de hoy ```minDate``` fecha minima, 
 ```maxDate``` fecha máxima. <a href="https://editor.datatables.net/reference/field/date">Documentación</a>
 ```js
         {
@@ -94,8 +96,9 @@ Campo donde se selecciona la fecha de entrega con permitiendo unicamente selecci
         }
 ``` 
 
-Server side script
+
 ```php
+Serverside script
         Field::inst( 'altaestudios.FechaEntrega' )
                 ->validator( 'Validate::dateFormat', array(
                     "format"  => Format::DATE_ISO_8601,
@@ -115,8 +118,10 @@ Campo para seleccionar paciente.
 ```
 
 Consulta para el campo paciente donde ```perfil=3```  
-Server side script
+
 ```php
+Serverside script
+
  Field::inst( 'altaestudios.IdUsuario' )
             // se agregan las opciones del objeto que se va a llenar dinamicamente
                     ->options( Options::inst()
