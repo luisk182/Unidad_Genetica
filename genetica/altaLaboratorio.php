@@ -34,10 +34,12 @@ else {
                     ajax:"scripts/a_Laboratorio.php",
                     table:"#laboratorio",  
                     
-                    fields:[{
+                    fields:[
+					{
                         label:"Nombre",
                         name:"NombreLaboratorio"
-                }
+						
+					}
                     ],
 					i18n: {
 							edit: {submit: "Guardar"},
@@ -45,8 +47,8 @@ else {
 							remove:{
 								submit:"Borrar",
 								confirm:{
-									_: "¿Estas seguro que deseas borrar %d lineas?",
-									1: "¿Estas seguro que deseas borrar 1 línea?"
+									_: "¿Estas seguro que deseas borrar %d laboratorios?",
+									1: "¿Estas seguro que deseas borrar este laboratorio?"
 								}
 						}	
 					}							
@@ -71,7 +73,10 @@ else {
                 },
                lengthChange: false,
                 ajax:"scripts/a_Laboratorio.php",
-                columns:[{data:"NombreLaboratorio"},],
+                columns:[
+				{data:"NombreLaboratorio"}
+				
+				],
              
                 select:true
 		   

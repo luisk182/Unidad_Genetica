@@ -23,6 +23,20 @@ else {
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 	<title>Unidad Genética - Estudios </title>
+	<style>
+		.boton{
+			width:100%;
+			height:50px;
+			
+			background-color:red;
+			
+		}
+		.myboton{
+			@extend .boton
+			background-color:blue;
+		}
+		
+	</style>
    <?php   include('header_in.php');
             include ('dtheader.php');
     ?>
@@ -38,6 +52,7 @@ else {
                         label:"Clave",
                         name:"ClaveEstudio"
                 },
+				
                     {
                         label:"Nombre",
                         name:"NombreEstudio"    
@@ -49,8 +64,8 @@ else {
 							remove:{
 								submit:"Borrar",
 								confirm:{
-									_: "¿Estas seguro que deseas borrar %d lineas?",
-									1: "¿Estas seguro que deseas borrar 1 línea?"
+									_: "¿Estas seguro que deseas borrar %d estudios?",
+									1: "¿Estas seguro que deseas borrar este  estudio?"
 								}
 						}	
 					}							
@@ -115,7 +130,6 @@ else {
     <nav class="top-bar" data-topbar role="navigation">
         <?php include('menu.php'); ?>
     </nav>
-    
 
 	<div class="container">
 		<section>

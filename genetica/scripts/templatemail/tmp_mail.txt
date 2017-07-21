@@ -1,64 +1,10 @@
-<?php
-
-// $_SESSION['email'] = $_POST['email'];
-// $_SESSION['nombre'] = $_POST['nombre'];
-// $_SESSION['apellido'] = $_POST['apellido'];
-header("Content-Type: text/html;charset=utf-8");
-
-$nombre = $mysqli->escape_string($_POST['nombre']);
-$apellido = $mysqli->escape_string($_POST['apellido']);
-$telefono = $mysqli->escape_string($_POST['telefono']);
-$perfil = $mysqli->escape_string($_POST['perfil']);
-$laboratorio = $mysqli->escape_string($_POST['laboratorio']);
-$email = $mysqli->escape_string($_POST['email']);
-$password = $mysqli->escape_string(password_hash($_POST['password'], PASSWORD_BCRYPT));
-$hash = $mysqli->escape_string( md5( rand(0,1000) ) );
-$alert="";      
-$passuncrypt=$_POST['password'];
-$enviarcorreo= $_POST['enviar'];
-$result = $mysqli->query("SELECT * FROM usuario WHERE email='$email'") or die($mysqli->error());
+ '<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+				<tbody><tr>
+					<td align="center" valign="top" style="background-color:#f2f2f2">
 
 
-if ( $result->num_rows > 0 ) {
-    
-    $_SESSION['alert-error'] = 'Ese usuario ya está regisrado';
-
-}
-else if(ctype_space($nombre) || ctype_space($password) || ctype_space($telefono)){
-	 $_SESSION['alert-error'] = 'No se aceptan espacios en blanco en Nombre';
-}
-else if(ctype_space($apellido)){
-	 $_SESSION['alert-error'] = 'No se aceptan espacios en blanco en Apellido';
-}
-
-else { 
-    $sql = "INSERT INTO usuario (nombre, apellido, email, password, hash, telefono, perfil, laboratorio) " 
-            . "VALUES ('$nombre','$apellido','$email','$password', '$hash', '$telefono', '$perfil', '$laboratorio')";
-
-    $_SESSION['alert']="Usuario registrado con éxito";
-    if ( $mysqli->query($sql) and  $enviarcorreo=="si"){
-
-        $_SESSION['activo'] = 0; 
-        $_SESSION['logged_in'] = true; 
-        $_SESSION['message'] =
-                
-                 "Se ha enviado un enlace de confirmación a $email, por favor verifiquen la cuenta";
-
-     
-        $to      = $email;
-		$subject  = 'Correo de verificación';
-		$headers = 'MIME-Version: 1.0' . "\r\n";  
-		$headers .= 'From: activacioncuenta@unidadgenetica.com' . "\r\n";  
-		$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-		
-		
-        $body = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
-  <tbody><tr>
-    <td align="center" valign="top" style="background-color:#f2f2f2">
-
-
-      <table align="center" border="0" cellpadding="0" cellspacing="0" width="500">
-        <tbody>
+				<table align="center" border="0" cellpadding="0" cellspacing="0" width="500">
+			<tbody>
           <tr>
           <td style="display:none">
             <div style="display:none;font-size:0px;max-height:0px;line-height:0px;padding:0">Verifica tu correo y accede a tus resultados en línea.
@@ -102,7 +48,7 @@ else {
         <tr>
           <td align="left" style="color:#040707;font-family:arial,sans-serif;font-size:15px;line-height:24px;text-align:left;padding-bottom:18px;font-weight:normal;">
             Usuario: <strong> <span style="color:#040707;font-family:arial,sans-serif;font-size:15px;line-height:24px;text-align:left;padding-bottom:18px;font-weight:bold;text-decoration:none;">'.$email.'</span></strong> <br>
- 
+           
           </td>
         </tr>
         <tr>
@@ -153,13 +99,5 @@ else {
       </tbody></table>
     </td>
   </tr>
-</tbody></table>';
-        mail( $to, $subject, $body, $headers );
-    }
+</tbody></table>'
 
-    else {
-        $_SESSION['message'] = 'Error al registrar';
-        header("location: error.php");
-    }
-
-}

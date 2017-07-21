@@ -23,10 +23,33 @@ use
     Editor::inst( $db, 'tipoestudio', 'IdTipoEstudio')
    ->debug(true)
 	->fields(
-        Field::inst('NombreEstudio'),
-		
+        Field::inst('NombreEstudio')
+			->validator("Validate::required", array(
+				"message" => "Capture un nombre de estudio"
+			) )
+			
+			->validator( function ( $val, $data, $opts ) {
+			return ctype_space( $val ) ?
+				'No se aceptan espacios en blanco' :
+				true;
+			} )
+			->validator("Validate::unique", array( 
+				"message" => "Ese estudio ya está registrado"
+			) ),
+			
         Field::inst('ClaveEstudio')
-		
+		->validator( function ( $val, $data, $opts ) {
+			return ctype_space( $val )?
+				'No se aceptan espacios en blanco' :
+				true;
+			} )
+			->validator("Validate::required", array(
+				"message" => "Capture una clave de estudio"
+			) )
+			->validator("Validate::unique", array( 
+				"message" => "Esa clave de estudio ya está registrada"
+			) )
+
 
     )
    

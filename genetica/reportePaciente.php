@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 session_start();
-if ($_SESSION['perfil']!=3) 
+if ($_SESSION['perfil']!=3 && $_SESSION['activo']!=1) 
 	{
 		echo "<script> window.location = '../error-login.php'</script>";
 

@@ -33,7 +33,12 @@ else {
 	<title>Usuarios</title>
 <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-   
+	<style>
+	
+		.reveal-modal {
+			top:65% !important;
+		}
+	</style>	
     <?php 
     include('header_in.php');
     include ('dtheader.php');
@@ -44,11 +49,13 @@ else {
 
                 require 'register.php';
                 $mensaje=$_SESSION['alert'];
+                $mensaje_error=$_SESSION['alert-error'];
+				
             }
         }
     ?>
 	<script type="text/javascript" src="../js/password.js"></script>
-
+	<link rel="stylesheet" href="resources/form.css">
      <script type="text/javascript" language="javascript" class="init">
           var editor;
             $(document).ready(function(){
@@ -127,17 +134,25 @@ else {
 								submit:"Borrar",
 								confirm:{
 									_: "¿Estás seguro que deseas borrar %d lineas?",
-									1: "¿Estás seguro que deseas borrar 1 línea?"
+									1: "¿Estás seguro que deseas borrar este usuario?"
 								}
 						}	
 					}						
             });
+			
 			editor.dependent( 'usuario.perfil', function ( val ) {
-				return val == 1 ?
-			{ show: ['usuario.laboratorio'] } :
+				if (val != 1) $("#DTE_Field_usuario-laboratorio").val(0);
+			return val == 1 ?
+			
+			{ show: ['usuario.laboratorio'] }
+				:
+			
             { hide: ['usuario.laboratorio'] };
-          
 			} );
+			 
+			
+			
+			
             
          var table= $("#usuarios").DataTable({
                 lengthChange: false, 
@@ -201,11 +216,17 @@ else {
             }
 
             ] );
+			
+			$.validate({
+				form : '#signup'
+			});
+			
+		
+			
             } );
 
     </script>  
-	
-	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     </head>
     
     <body>
@@ -223,7 +244,8 @@ else {
 						  <label>
 							Apellido<span class="req">*</span>
 						  </label>
-						  <input type="text"required autocomplete="off" name='apellido' />
+						  <input type="text" name='apellido'  data-validation="length" data-validation-length="4-15" 
+							data-validation-error-msg="Captura un nombre válido"/>
 						 
 						</div>
         
@@ -231,7 +253,9 @@ else {
 						 <label>
 								Nombre(s)<span class="req">*</span>
 						  </label>
-						  <input type="text" required autocomplete="off" name='nombre'/>
+						  <input type="text" name='nombre' data-validation="required length"
+							data-validation-length="4-15"						  
+						  data-validation-error-msg="Captura un nombre válido"/>
 						</div>
 				</div>
 				
@@ -247,7 +271,8 @@ else {
 							Enviar</span>
 							</label>
 							<div class="medium-9 columns">
-								<input type="email"required autocomplete="off" name='email' />
+								<input type="email"  name='email' data-validation="email"
+								data-validation-error-msg="Captura un correo electrónico válido"/>
 							</div>
 							<div class="medium-3 columns">
 							
@@ -266,7 +291,9 @@ else {
 								</label>
 								<div class="medium-10 columns" id="generador">
 									
-									<input type="text"required autocomplete="off" name='password'>
+									<input type="text" name='password' data-validation="length"
+									data-validation-length="5-15"
+									data-validation-error-msg="La contraseña debe tener al menos 5 carácteres"/>
 								</div>
 								<div class="medium-2 columns">
 									<button class="button postfix" id="miboton">
@@ -279,7 +306,7 @@ else {
 							<label>
 								  Teléfono<span class="req">*</span>
 								</label>
-								<input type="text" required autocomplete="off" name="telefono">
+								<input type="text" name="telefono" data-validation="required"data-validation-error-msg="Captura un teléfono válido"/>
 						</div>
 				</div>
 		
@@ -314,16 +341,19 @@ else {
 						</div>
 			
 			</div>
+			
+			
+
+			</form>	
 			<div class="row">
 	
 			<div class="medium-4 columns">
 				<?php if($mensaje){ echo '<div data-alert class="alert-box success" tabindex="0" aria-live="assertive" role="alertdialog">'.$mensaje.'<button tabindex="0" class="close" aria-label="Close Alert">&times;</button>
+				</div>';} else 
+				if($mensaje_error){ echo '<div data-alert class="alert-box alert" tabindex="0" aria-live="assertive" role="alertdialog">'.$mensaje_error.'<button tabindex="0" class="close" aria-label="Close Alert">&times;</button>
 				</div>';}  ?>
-				</div>
 			</div>
-			
-
-			</form>		
+			</div>			
           </div>
           <hr>
        
@@ -385,11 +415,8 @@ else {
 			
 			
 		});
-		function alerts(){
-							alert("Correo enviado");
-							console.log("correo enviado a:");
-				
-						}	
+		
+		
 		
 	</script>
 	

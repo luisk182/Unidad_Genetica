@@ -28,6 +28,10 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
 				"format"  => Format::DATE_ISO_8601,
 				"message" => "Ingrese un formato válido de fecha yyyy-mm-dd"
 			) )
+			->validator( 'Validate::required', array(
+				
+				"message" => "Seleccione / capture una fecha de recepción"
+			) )
 			->getFormatter( 'Format::date_sql_to_format', Format::DATE_ISO_8601 )
 			->setFormatter( 'Format::date_format_to_sql', Format::DATE_ISO_8601 ),
 			
@@ -35,6 +39,10 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
 			->validator( 'Validate::dateFormat', array(
 				"format"  => Format::DATE_ISO_8601,
 				"message" => "Ingrese un formato válido de fecha yyyy-mm-dd"
+			) )
+			->validator( 'Validate::required', array(
+				
+				"message" => "Seleccione / capture una fecha de entrega"
 			) )
 			->getFormatter( 'Format::date_sql_to_format', Format::DATE_ISO_8601 )
 			->setFormatter( 'Format::date_format_to_sql', Format::DATE_ISO_8601 ),
@@ -86,16 +94,15 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
                     Field::inst('medico.apellido'), //Join para render de apellido
                  
         Field::inst( 'altaestudios.IdLaboratorio')
-		->setFormatter( 'Format::ifEmpty', 15 )
                  ->options( Options::inst()
                         ->table( 'laboratorio')
                         ->value( 'IdLaboratorio' )
                         ->label( 'NombreLaboratorio')
-                    ),
+                    )
                    // validador de datos
-                    // ->validator( 'Validate::dbValues', array(
-						// "message" => "Seleccione un laboratorio"
-					// ) ),
+                     ->validator( 'Validate::dbValues', array(
+						 "message" => "Seleccione un laboratorio"
+					 ) ),
                 // campo de el left join
                  Field::inst( 'laboratorio.NombreLaboratorio'),
         Field::inst( 'altaestudios.activo'),
@@ -127,18 +134,23 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
                 )
                     ->allowedExtensions( array( 'pdf'), "Archivo no válido" )
             )
+			->validator( 'Validate::required', array(
+			"message"=> "Seleccione un archivo") )
 			
     )
 	->on( 'postCreate', function ( $editor, $id, $values, $row ) {
-				$res2=($maildoctor = $editor->db()
+				$res2=( $maildoctor = $editor->db()
 					->query('select')
 					->table('usuario')
 					->get('email')
 					->where('IdUsuario', $values['altaestudios']['IdMedico'])
 					->exec() );
-					$maildoctor=array();
+					
+					$maildoctor=array();		
+					$headers= 'From: notificaciones@unidadgenetica.com';
+
 					while ($rowz = $res2->fetch() ){
-						mail($rowz['email'], 'Nuevo estudio disponible', 'Visita http://www.unidadgenetica.com/resultados para ver el resultado');
+						mail($rowz['email'], 'Nuevo estudio disponible', 'Visita http://www.unidadgenetica.com/resultados para ver el resultado', $headers);
 					}
 				
 				$res= ($notif = $editor->db()
@@ -149,8 +161,9 @@ Editor::inst( $db, 'altaestudios', 'IdAltaEstudios' )
 					->exec() );
 					
 					$notif= array();
+					
 					while ($rows = $res->fetch() ){
-						mail($rows['email'], 'Nuevo estudio disponible', 'Visita http://www.unidadgenetica.com/resultados para ver el resultado');
+						mail($rows['email'], 'Nuevo estudio disponible', 'Visita http://www.unidadgenetica.com/resultados para ver el resultado', $headers);
 					}
 		}
 				

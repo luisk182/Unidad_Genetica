@@ -25,7 +25,7 @@ else {
     ?>
 	<script type="text/javascript" language="javascript" class="init">
           var editor;
-		  var fl = new Date();
+		 
 		  
 		 // var hoy= dia.getDate();
             $(document).ready(function(){
@@ -45,7 +45,7 @@ else {
 						name:"altaestudios.FechaEntrega",
 						type:"datetime",
 						opts:{
-							minDate: new Date(fl.getDay()),
+							minDate: new Date(new Date().valueOf()-1000*60*60*24),
 							maxDate: new Date()
 						
 						}
@@ -61,12 +61,13 @@ else {
                         name:"altaestudios.IdMedico", //Select llenado dinamicamente
                         type:"select",
                         placeholder:"Sin especificar"
+						
 				},
                     {
                         label:"Laboratorio",
                         name:"altaestudios.IdLaboratorio",
                         type:"select",
-						placeholder:"Unidad de genetica aplicada"
+						placeholder:"Seleccione un laboratorio.. "
                         
                 },
 				

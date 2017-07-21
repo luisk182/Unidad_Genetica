@@ -20,11 +20,17 @@ else { // User existe
         $_SESSION['activo'] = $user['activo'];
 		$_SESSION['IdUsuario'] = $user['IdUsuario'];
 		$_SESSION['laboratorio']= $user['laboratorio'];
-        // This is how we'll know the user is logged in
+       
         $_SESSION['logged_in'] = true;
         $_SESSION['perfil'] = $user['perfil'];
 		
-	
+		if($_SESSION['activo']!=1)
+		{
+			 $_SESSION['message'] = "Tu cuenta no ha sido activada";
+			 
+		}
+		
+		else 
 		$i=$user['perfil'];
 		
 		switch($i)
@@ -32,7 +38,8 @@ else { // User existe
 		case 1:
 			if (!isset($_COOKIE['first-lab']))
 			{
-				setcookie("first-lab", "no", time()+43200);
+				
+				setcookie("first-lab", "no", time()+(2678400*6));
 				echo "<script>window.parent.location = '../encuesta-de-satisfaccion-laboratorio/'</script>";
 			}
 			else
@@ -44,7 +51,7 @@ else { // User existe
 		case 2:
 		if (!isset($_COOKIE['first-medico']))
 			{
-				setcookie("first-medico", "no", time()+43200);
+				setcookie("first-medico", "no", time()+(2678400*6));
 				echo "<script>window.parent.location = '../encuesta-de-satisfaccion-medicos/'</script>";
 			}
 			else
@@ -54,6 +61,7 @@ else { // User existe
 			die;
 		break;
 		case 3:
+			
 			echo "<script>window.parent.location = '../encuesta-de-satisfaccion-paciente/'</script>";
 			die;
 		break;
@@ -62,7 +70,7 @@ else { // User existe
 		break;
 		
 		default:
-			echo "Error inesperado intente de nuevo";
+		
 		break;
 	}
 

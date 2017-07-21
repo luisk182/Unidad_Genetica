@@ -50,7 +50,7 @@ Pantallas y formularios
 /genetica/reporteMedico.php
 ```
 
-Procesamiento de datos 
+
 ### Scripts 
 
 ```
@@ -60,9 +60,10 @@ Procesamiento de datos
 /genetica/scripts/r_Medico.php
 /genetica/scripts/r_Paciente.php
 /genetica/scripts/altaUsuario.php
+/genetica/scripts/registrousuario.php
 ```
 
-### Relación 
+### Relación
 
 ```
  /genetica/reporteAdmin.php     -> /genetica/scripts/r_admin.php
@@ -71,6 +72,15 @@ Procesamiento de datos
  /genetica/reportePaciente.php  -> /genetica/scripts/r_Paciente.php
  /genetica/reporteMedico.php    -> /genetica/scripts/r_Medico.php
 ```
+
+
+## Reportes
+- <a href="reporteadmin.md">Reporte administrador</a>
+- <a href="reportelaboratorio.md">Reporte laboratorio</a>
+- <a href="reportemedico.md">Reporte médico</a>
+- <a href="reportepaciente">Reporte paciente</a>
+- <a href="registrousuario.md">Registro usuario</a>
+
 
 
 
