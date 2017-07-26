@@ -21,7 +21,7 @@ $result = $mysqli->query("SELECT * FROM usuario WHERE email='$email'") or die($m
 
 if ( $result->num_rows > 0 ) {
     
-    $_SESSION['alert-error'] = 'Ese usuario ya está regisrado';
+    $_SESSION['alert-error'] = 'Ese usuario ya está registrado';
 
 }
 else if(ctype_space($nombre) || ctype_space($password) || ctype_space($telefono)){
@@ -46,10 +46,11 @@ else {
 
      
         $to      = $email;
-		$subject  = 'Correo de verificación';
+		$subject  = 'Verificar correo';
 		$headers = 'MIME-Version: 1.0' . "\r\n";  
-		$headers .= 'From: activacioncuenta@unidadgenetica.com' . "\r\n";  
 		$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+		$headers .= 'From: verificarcorreo@unidadgenetica.com' . "\r\n";  
+		
 		
 		
         $body = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
@@ -111,7 +112,7 @@ else {
               <tbody>
                 <tr>
                   <td style="text-align:center;font-size:18px;line-height:18px;font-weight:bold;padding:14px 20px;color:#ffffff;font-family:arial,sans-serif;">
-                    <a href="http://unidadgenetica.com/SistemaUG/set.php?email='.$email.'&hash='.$hash.'" style="text-decoration:none;text-align:center;none;color:#ffffff;border:0;font-family:arial,sans-serif;" target="_blank">Establece tu contraseña</a>
+                    <a href="http://unidadgenetica.com/SistemaUG/set.php?email='.$email.'&hash='.$hash.'" style="text-decoration:none;text-align:center;none;color:#ffffff;border:0;font-family:arial,sans-serif; " target="_blank">Establece tu contraseña</a>
                   </td>
                 </tr>
               </tbody>

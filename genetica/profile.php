@@ -77,11 +77,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
     <nav class="top-bar" data-topbar role="navigation">
         <?php 
 		
-		if($perfil==4){
-			include('menu.php');
+		if($perfil!=4 and $perfil!=5){
+				include('menu_pac.php');
 		}	
 		else{
-			include('menu_pac.php');
+			include('menu.php');
 		}
 
 		?>
@@ -112,7 +112,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
               echo $_SESSION['message'];
               unset( $_SESSION['message'] );
           }
-          
           ?>
           
         

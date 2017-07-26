@@ -68,6 +68,9 @@ else { // User existe
 		case 4:
 			echo "<script>window.parent.location = '../SistemaUG/genetica/reporteAdmin.php'</script>";
 		break;
+		case 5:
+			echo "<script>window.parent.location = 'genetica/reporteAdmin.php'</script>";
+		break;
 		
 		default:
 		

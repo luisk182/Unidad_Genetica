@@ -2,9 +2,9 @@
 <?php
 session_start();
 
-if ($_SESSION['perfil']!=4) 
+if ($_SESSION['perfil']!=4 and $_SESSION['perfil']!=5) 
 	{
-	echo "No tiene suficiente permisos";die;
+	echo "<script> window.location = '../error-login.php'</script>";
 	//header("location: ../error.php");   
 	// $_SESSION['message'] = "Debes iniciar sesión para acceder a esta página";
 	}
@@ -47,8 +47,8 @@ else {
 							remove:{
 								submit:"Borrar",
 								confirm:{
-									_: "¿Estas seguro que deseas borrar %d laboratorios?",
-									1: "¿Estas seguro que deseas borrar este laboratorio?"
+									_: "¿Estás seguro que deseas borrar %d laboratorios?",
+									1: "¿Estás seguro que deseas borrar este laboratorio?"
 								}
 						}	
 					}							
@@ -78,7 +78,9 @@ else {
 				
 				],
              
-                select:true
+               select: {
+					style: 'single'
+				},
 		   
            } );
                  new $.fn.dataTable.Buttons( table, [

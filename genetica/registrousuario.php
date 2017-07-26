@@ -3,7 +3,7 @@
 header("Content-Type: text/html;charset=utf-8");
 session_start();
 
-if ($_SESSION['perfil']!=4) 
+if ($_SESSION['perfil']!=4 and $_SESSION['perfil']!=5) 
 	{
 echo "<script> window.location = '../error-login.php'</script>";
 	
@@ -23,7 +23,7 @@ else {
 	   $email = $_SESSION['email'];
 	   $activo = $_SESSION['activo'];
 
-}
+ }
 ?>
 <html>
 <html>
@@ -36,7 +36,7 @@ else {
 	<style>
 	
 		.reveal-modal {
-			top:65% !important;
+			top:75% !important;
 		}
 	</style>	
     <?php 
@@ -63,7 +63,8 @@ else {
                     ajax:"scripts/altaUsuario.php",
                     table:"#usuarios",  
 					
-                    fields:[{
+                    fields:[
+					{
                         label:"Nombre",
                         name:"usuario.nombre"
                 },
@@ -90,6 +91,7 @@ else {
                         name:"usuario.perfil",
                         type:"select",
                         options:[
+							
                             { label: "Administrador",   value:"4"  },
                             { label: "Médico",          value:"2"  },
                             { label: "Laboratorista",   value:"1"  },
@@ -112,7 +114,7 @@ else {
                         ]
                 },
 				{
-						label:"Reenvio de correo",
+						label:"Reenvío correo",
 						type:"checkbox",
 						name:"usuario.sent",
 						   options: [
@@ -127,6 +129,7 @@ else {
 						type:"hidden"
 				}
                 ],
+				
 					i18n: {
 							edit: {submit: "Guardar"},
 							create:{submit:"Crear"},
@@ -149,6 +152,18 @@ else {
 			
             { hide: ['usuario.laboratorio'] };
 			} );
+			
+			
+			// editor.on('preRemove', function ( e, data ) {
+				// console.log("estan intentando borrar");
+				// var IdField = this.field( 'usuario.IdUsuario' );
+				// if ( IdField.val() == 60 ) {
+					// alert( 'No se puede eliminar este usuario' );
+					// return false;
+				// }
+			
+				// return true;
+			// } );
 			 
 			
 			
@@ -175,6 +190,7 @@ else {
                
                 ajax:"scripts/altaUsuario.php",
                 columns:[
+				{data:"usuario.IdUsuario"},
                     {data:null, render:function(data, type, row){
                             return data.usuario.nombre+' '+data.usuario.apellido;
                         }
@@ -194,7 +210,9 @@ else {
 				
 					
                 ],
-                select:true
+                select: {
+					style: 'single'
+				},
            } );
                 new $.fn.dataTable.Buttons( table, [
                 { 
@@ -239,24 +257,24 @@ else {
 		<div id="signup">   
 			<form action="registrousuario.php" method="post" autocomplete="off" id="miform">
 					<div class="row">
-					
-						<div class="medium-6 columns">
-						  <label>
-							Apellido<span class="req">*</span>
-						  </label>
-						  <input type="text" name='apellido'  data-validation="length" data-validation-length="4-15" 
-							data-validation-error-msg="Captura un nombre válido"/>
-						 
-						</div>
-        
 						<div class="medium-6 columns">
 						 <label>
 								Nombre(s)<span class="req">*</span>
 						  </label>
 						  <input type="text" name='nombre' data-validation="required length"
-							data-validation-length="4-15"						  
+							data-validation-length="2-15"						  
 						  data-validation-error-msg="Captura un nombre válido"/>
 						</div>
+						<div class="medium-6 columns">
+						  <label>
+							Apellido<span class="req">*</span>
+						  </label>
+						  <input type="text" name='apellido'  data-validation="length" data-validation-length="2-15" 
+							data-validation-error-msg="Captura un nombre válido"/>
+						 
+						</div>
+        
+						
 				</div>
 				
 				<div class="row">
@@ -291,7 +309,7 @@ else {
 								</label>
 								<div class="medium-10 columns" id="generador">
 									
-									<input type="text" name='password' data-validation="length"
+									<input type="text" name='password' data-validation="length" id="pass"
 									data-validation-length="5-15"
 									data-validation-error-msg="La contraseña debe tener al menos 5 carácteres"/>
 								</div>
@@ -316,7 +334,7 @@ else {
 								<label>
 								  Perfil<span class="req">*</span>
 								</label>
-								<select name="perfil" id="perfil">
+								<select name="perfil" id="perfil" >
 									<option value="2">Médico</option>
 									<option value="1">Laboratorista</option>
 									<option value="3">Paciente</option>
@@ -327,8 +345,8 @@ else {
 					<label id="span-lab">
 						 Laboratorio<span class="req">*</span>
 					</label>				
-					<select name="laboratorio" id="lab">		
-						<option value="0"> Seleccione laboratorio.. </option>
+					<select name="laboratorio" id="lab" data-validation="required" data-validation-error-msg="Selecciona un laboratorio">		
+						<option value=""> </option>
 						<?php
 						while($rows = mysqli_fetch_array($listalabs)){
 							echo "<option value=".$rows['IdLaboratorio'].">".$rows['NombreLaboratorio']."</option>";
@@ -337,7 +355,7 @@ else {
 					</select>
 					</div>
 						<div class="medium-4 columns">
-							<button type="submit" class="button small" name="register" style="margin-top:15px; width:100%;">Registrar</button>
+							<button type="submit" class="button small" name="register" id="reg" style="margin-top:15px; width:100%;">Registrar</button>
 						</div>
 			
 			</div>
@@ -366,6 +384,7 @@ else {
 			<table id="usuarios" class="display" cellspacing="0" width="100%">
 				<thead>
 					<tr>
+						<th>Id</th>
                         <th>Nombre</th>
 						<th>Correo</th>
                         <th>Teléfono</th>
@@ -387,8 +406,7 @@ else {
 		$("#miboton").click(function(event){
 			$('#generador').generatePassword();
 				event.preventDefault();
-			
-		
+				$("#pass").focus();
 		});
 	</script>
 	<script>
@@ -406,9 +424,13 @@ else {
 				}
 				else{
 					$("#lab").val('0');
+				
 					$("#lab").hide();
 					$("#span-lab").hide();
+					
 				}
+				
+				
 				
 			});
 		
@@ -416,9 +438,16 @@ else {
 			
 		});
 		
+		$(".close").click(function(){
+				$(".alert-box").hide();
+		});
+
+		
 		
 		
 	</script>
+	
+
 	
     
     

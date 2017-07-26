@@ -18,6 +18,7 @@ h1 span {
 #signup
 {
 	margin-top:80px;
+	height:50vh;
 }
 .ui-autocomplete {
 	position: absolute;

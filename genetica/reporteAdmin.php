@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-if ($_SESSION['perfil']!=4) 
+if ($_SESSION['perfil']!=4 and $_SESSION['perfil']!=5)  
 	{
 		echo "<script> window.location = '../error-login.php'</script>";
 		//header('Location:../error.php');
@@ -111,6 +111,12 @@ else {
 									_: "¿Estás seguro que deseas borrar %d registros?",
 									1: "¿Estás seguro que deseas borrar 1 registro?"
 								}
+							},
+							multi:{
+								 title: "Múltiple edición",
+								info: "El campo seleccionado contiene diferentes valores para este campo. Para editar y seleccionar un solo valor para esta campo, has clic aquí, de otra forma mantendrán sus valores individuales ",
+								restore: "Deshacer cambios"
+								
 							}
 					}							
             });
@@ -176,7 +182,7 @@ else {
 					
 					
                 ],
-                select:true
+                  select:true
                    
            } );
                 new $.fn.dataTable.Buttons( table, [

@@ -28,17 +28,27 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
         // Send registration confirmation link (reset.php)
         $to      = $email;
-        $subject = 'Restablecer contraseña (Unidad Genética Aplicada)';
-        $body = '
-        Hola '.$nombre.',
+   
+		$subject  = 'Restablecer acceso';
+		$headers = 'MIME-Version: 1.0' . "\r\n";  
+		$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+		$headers .= 'From: restableceracceso@unidadgenetica.com' . "\r\n";  
+		$body = '
+		<table>
+			<tr>
+				<td> Hola '.$nombre.', </td>
+			<tr>
+				<td>Has solicitado cambio de contraseña</td>
+			</tr>
+			<tr>
+				<td>Da click en el siguiente enlace para resetear tu contraseña.</td> 
+			</tr>
+			<tr>
+				<td><a href="http://unidadgenetica.com/SistemaUG/reset.php?email='.$email.'&hash='.$hash. '">Restablecer </a></td>
+			</tr>
+		</table>';
 
-       Has solicitado cambio de contraseña
-
-       Haz click en el siguiente enlace para resetear tu contraseña
-
-      http://unidadgenetica.com/SistemaUG/reset.php?email='.$email.'&hash='.$hash;
-
-        mail($to, $subject, $body);
+        mail($to, $subject, $body, $headers);
 
         header("location: success.php");
   }

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 	<script type="text/javascript" src="../js/foundation.min.js"></script>
 	<script type="text/javascript" src="../js/foundation/foundation.alerts.js"></script>
+	<script type="text/javascript" src="../js/foundation/foundation.topbar.js"></script>
 	
 	
    <!-- <script type="text/javascript" src="../js/foundation.min.js"></script>-->

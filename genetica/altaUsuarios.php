@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-if ($_SESSION['perfil']!=4) 
+if ($_SESSION['perfil']!=4 and $_SESSION['perfil']!=5) 
 	{
 	echo "No tiene suficiente permisos";die;
 	//header("location: ../error.php");   
