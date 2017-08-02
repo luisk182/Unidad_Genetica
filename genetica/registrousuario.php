@@ -262,14 +262,14 @@ else {
 								Nombre(s)<span class="req">*</span>
 						  </label>
 						  <input type="text" name='nombre' data-validation="required length"
-							data-validation-length="2-15"						  
+							data-validation-length="2-50"						  
 						  data-validation-error-msg="Captura un nombre válido"/>
 						</div>
 						<div class="medium-6 columns">
 						  <label>
 							Apellido<span class="req">*</span>
 						  </label>
-						  <input type="text" name='apellido'  data-validation="length" data-validation-length="2-15" 
+						  <input type="text" name='apellido'  data-validation="length" data-validation-length="2-50" 
 							data-validation-error-msg="Captura un nombre válido"/>
 						 
 						</div>
